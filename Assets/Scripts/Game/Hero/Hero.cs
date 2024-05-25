@@ -4,8 +4,8 @@ namespace Game.Hero
 {
     public class Hero : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D _rigidbody2;
-        [SerializeField] private GroundDetector _groundDetector;
+        [SerializeField] private Rigidbody2D _rigidbody2 = null!;
+        [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private float _jumpForce;
     
         private void Update()

@@ -4,7 +4,7 @@ namespace Infrastructure
 {
     public class Game
     {
-        public static IInput Input { get; private set; }
+        public static IInput Input { get; private set; } = null!;
 
         public Game()
         {

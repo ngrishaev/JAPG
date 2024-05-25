@@ -5,9 +5,9 @@ namespace Game.Hero
 {
     public class HeroMover : MonoBehaviour
     {
-        [SerializeField] private Rigidbody2D _rigidbody2;
+        [SerializeField] private Rigidbody2D _rigidbody2 = null!;
         [SerializeField] private float _speed;
-        private IInput _input;
+        private IInput _input = null!;
 
         private void Awake()
         {

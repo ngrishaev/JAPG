@@ -4,7 +4,7 @@ namespace Game
 {
     public class GroundDetector : MonoBehaviour
     {
-        [SerializeField] private Collider2D _detector;
+        [SerializeField] private Collider2D _detector = null!;
         [SerializeField] private LayerMask _groundMask;
     
         public bool IsGrounded { get; private set; }
@@ -27,7 +27,7 @@ namespace Game
         {
             CheckIsGrounded();
         }
-
+        
         public bool CheckIsGrounded()
         {
             RaycastHit2D raycastHit2D = Physics2D.BoxCast(
