@@ -1205,6 +1205,50 @@ Transform:
   - {fileID: 771485949}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1050341453
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1050341454}
+  - component: {fileID: 1050341455}
+  m_Layer: 0
+  m_Name: Bootstrapper
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1050341454
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050341453}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.132388, y: 0.6107133, z: -0.064922236}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1050341455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1050341453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2349874df2299e24b9e261d8f3b77c50, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1248370655
 GameObject:
   m_ObjectHideFlags: 0
@@ -1424,8 +1468,9 @@ GameObject:
   - component: {fileID: 2115858525}
   - component: {fileID: 2115858526}
   - component: {fileID: 2115858527}
+  - component: {fileID: 2115858528}
   m_Layer: 0
-  m_Name: Player
+  m_Name: Hero
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1491,6 +1536,20 @@ MonoBehaviour:
   _groundDetector: {fileID: 2117300411}
   _speed: 5
   _jumpForce: 500
+--- !u!114 &2115858528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115858524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e2995af8a8b4d0648bde269d87b1175f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rigidbody2: {fileID: 2115858526}
+  _speed: 5
 --- !u!1 &2117300408
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,3 +1658,4 @@ SceneRoots:
   - {fileID: 955877120}
   - {fileID: 2115858525}
   - {fileID: 1470192150}
+  - {fileID: 1050341454}
