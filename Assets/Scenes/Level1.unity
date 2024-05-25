@@ -133,6 +133,7 @@ GameObject:
   m_Component:
   - component: {fileID: 650889781}
   - component: {fileID: 650889783}
+  - component: {fileID: 650889784}
   m_Layer: 0
   m_Name: Avatar
   m_TagString: Untagged
@@ -207,6 +208,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &650889784
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 650889780}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d60dd3e7864f500448b8e70e637a104d, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &771485948
 GameObject:
   m_ObjectHideFlags: 0
@@ -1469,6 +1491,7 @@ GameObject:
   - component: {fileID: 2115858526}
   - component: {fileID: 2115858527}
   - component: {fileID: 2115858528}
+  - component: {fileID: 2115858529}
   m_Layer: 0
   m_Name: Hero
   m_TagString: Untagged
@@ -1548,7 +1571,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody2: {fileID: 2115858526}
+  _heroAnimations: {fileID: 2115858529}
   _speed: 5
+--- !u!114 &2115858529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2115858524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28db70d4fa7910d438ccd84fa19c41b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 650889784}
 --- !u!1 &2117300408
 GameObject:
   m_ObjectHideFlags: 0

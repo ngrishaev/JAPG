@@ -7,6 +7,7 @@ namespace Game.Hero
         [SerializeField] private Rigidbody2D _rigidbody2 = null!;
         [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private float _jumpForce;
+        
     
         private void Update()
         {

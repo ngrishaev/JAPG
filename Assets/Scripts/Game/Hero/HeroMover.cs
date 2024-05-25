@@ -6,6 +6,7 @@ namespace Game.Hero
     public class HeroMover : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _rigidbody2 = null!;
+        [SerializeField] private HeroAnimations _heroAnimations = null!;
         [SerializeField] private float _speed;
         private IInput _input = null!;
 
@@ -23,6 +24,11 @@ namespace Game.Hero
         {
             float horizontalInput = _input.HorizontalMovement;
             _rigidbody2.velocity = new Vector2(horizontalInput * _speed, _rigidbody2.velocity.y);
+
+            if (horizontalInput != 0)
+                _heroAnimations.PlayRunAnimation();
+            else
+                _heroAnimations.PlayIdleAnimation();
         }
     }
 }
