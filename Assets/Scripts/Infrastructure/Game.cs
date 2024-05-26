@@ -4,11 +4,12 @@ namespace Infrastructure
 {
     public class Game
     {
-        public static IInput Input { get; private set; } = null!;
+        public static IInput Input { get; set; } = null!;
+        public readonly GameStateMachine StateMachine;
 
         public Game()
         {
-            Input = new KeyboardInput();
+            StateMachine = new GameStateMachine();
         }
     }
 }
