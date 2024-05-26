@@ -1,4 +1,7 @@
-﻿namespace Infrastructure
+﻿using Game;
+using UnityEngine;
+
+namespace Infrastructure
 {
     public class LoadLevelState : IPayloadedState<string>
     {
@@ -13,11 +16,24 @@
 
         public void Enter(string sceneName)
         {
-            _sceneLoader.Load(sceneName);
+            _sceneLoader.Load(sceneName, OnLoaded);
         }
 
         public void Exit()
         {
+        }
+
+        private void OnLoaded()
+        {
+            var hero = Instantiate("Hero");
+            
+            Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
+        }
+
+        private static GameObject Instantiate(string path)
+        {
+            var prefab = Resources.Load<GameObject>(path);
+            return Object.Instantiate(prefab);
         }
     }
 }
