@@ -19,7 +19,7 @@
         }
 
         private void EnterLoadLevel() => 
-            _stateMachine.Enter<LoadLevelState>();
+            _stateMachine.Enter<LoadLevelState, string>("Level1");
 
         public void Exit() { }
 
