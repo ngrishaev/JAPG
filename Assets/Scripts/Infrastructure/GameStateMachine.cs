@@ -8,11 +8,12 @@ namespace Infrastructure
         private readonly Dictionary<Type,IState> _states;
         private IState? _activeState;
 
-        public GameStateMachine()
+        public GameStateMachine(SceneLoader sceneLoader)
         {
             _states = new Dictionary<Type, IState>()
             {
-                {typeof(BootstrappState), new BootstrappState(this)},
+                {typeof(BootstrappState), new BootstrappState(this, sceneLoader)},
+                {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader)},
             };
         }
         
