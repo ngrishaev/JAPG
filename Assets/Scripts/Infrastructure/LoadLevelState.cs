@@ -1,6 +1,7 @@
 ﻿using Game;
 using UI;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace Infrastructure
 {
@@ -34,7 +35,8 @@ namespace Infrastructure
         {
             var initialPoint = GameObject.FindGameObjectWithTag(Initialpoint);
             var hero = Instantiate(HeroPath, initialPoint.transform.position);
-            
+
+            Assert.IsNotNull(Camera.main, "Main camera is missing");
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
             
             _gameStateMachine.Enter<GameLoopState>();

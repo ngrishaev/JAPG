@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.Assertions;
 using UnityEngine.SceneManagement;
 
 namespace Infrastructure
@@ -27,6 +28,7 @@ namespace Infrastructure
             
             AsyncOperation? waitNextScene = SceneManager.LoadSceneAsync(nextScene);
             
+            Assert.IsNotNull(waitNextScene, $"Scene {nextScene} not found");
             while (!waitNextScene.isDone)
                 yield return null;
             

@@ -42,7 +42,7 @@ namespace Infrastructure
 
         private TState GetState<TState>() where TState : class, IExitableState
         {
-            return _states[typeof(TState)] as TState;
+            return (TState) _states[typeof(TState)];
         }
     }
 }
