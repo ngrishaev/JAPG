@@ -1,3 +1,5 @@
+using System;
+using Services.Input;
 using UnityEngine;
 
 namespace Game.Hero
@@ -8,7 +10,14 @@ namespace Game.Hero
         [SerializeField] private HeroAnimations _animations = null!;
         [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private float _jumpForce;
-    
+        
+        private IInput _input = null!;
+
+        private void Awake()
+        {
+            _input = Infrastructure.Game.Input;
+        }
+
         private void Update()
         {
             HandleInput();
@@ -17,12 +26,11 @@ namespace Game.Hero
         private void HandleInput()
         {
             HandleJump();
-            //HandleShoot();
         }
 
         private void HandleJump()
         {
-            if (!Input.GetKeyDown(KeyCode.Space))
+            if (!_input.JumpPressed)
                 return;
             if (!_groundDetector.CheckIsGrounded())
                 return;
