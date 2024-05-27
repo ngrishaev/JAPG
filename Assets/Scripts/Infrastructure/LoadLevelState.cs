@@ -5,6 +5,7 @@ namespace Infrastructure
 {
     public class LoadLevelState : IPayloadedState<string>
     {
+        private const string Initialpoint = "InitialPoint";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
 
@@ -25,15 +26,16 @@ namespace Infrastructure
 
         private void OnLoaded()
         {
-            var hero = Instantiate("Hero");
+            var initialPoint = GameObject.FindGameObjectWithTag(Initialpoint);
+            var hero = Instantiate("Hero", initialPoint.transform.position);
             
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
         }
 
-        private static GameObject Instantiate(string path)
+        private static GameObject Instantiate(string path, Vector3 at)
         {
             var prefab = Resources.Load<GameObject>(path);
-            return Object.Instantiate(prefab);
+            return Object.Instantiate(prefab, at, Quaternion.identity);
         }
     }
 }
