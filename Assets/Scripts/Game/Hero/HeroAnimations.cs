@@ -8,6 +8,8 @@ namespace Game.Hero
 
         private static readonly int IdleAnimation = Animator.StringToHash("Idle");
         private static readonly int RunAnimation = Animator.StringToHash("Run");
+        private static readonly int JumpAnimation = Animator.StringToHash("Jump");
+        
 
         public void PlayRunAnimation()
         {
@@ -17,6 +19,11 @@ namespace Game.Hero
         public void PlayIdleAnimation()
         {
             _animator.Play(IdleAnimation);
+        }
+        
+        public void PlayJumpAnimation()
+        {
+            _animator.Play(JumpAnimation);
         }
     }
 }

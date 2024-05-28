@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 8732407168399754555}
   - component: {fileID: 8367354692413607380}
   - component: {fileID: 3700220496273894050}
-  - component: {fileID: 5592392392982475594}
   - component: {fileID: 1252663175481745777}
   m_Layer: 0
   m_Name: Hero
@@ -76,24 +75,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e67aa4068359c634885b40d68a542c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _rigidbody2: {fileID: 8367354692413607380}
-  _animations: {fileID: 0}
+  _rigidbody: {fileID: 8367354692413607380}
+  _animations: {fileID: 1252663175481745777}
   _groundDetector: {fileID: 8013230868663546323}
   _jumpForce: 500
---- !u!114 &5592392392982475594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1160198495814620361}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e2995af8a8b4d0648bde269d87b1175f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _rigidbody2: {fileID: 8367354692413607380}
-  _heroAnimations: {fileID: 1252663175481745777}
   _speed: 5
 --- !u!114 &1252663175481745777
 MonoBehaviour:
