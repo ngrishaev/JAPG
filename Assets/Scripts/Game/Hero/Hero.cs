@@ -4,7 +4,6 @@ using System.Linq;
 using Game.Hero.States;
 using Services.Input;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Game.Hero
 {
@@ -18,16 +17,14 @@ namespace Game.Hero
         
         private IInput _input = null!;
         private IHeroState _currentState = null!;
-        private Dictionary<Func<bool>, IHeroState> _transitions = new Dictionary<Func<bool>, IHeroState>();
+        private Dictionary<Func<bool>, IHeroState> _transitions = new();
         
-        public string CurrentStateName = string.Empty;
-        
-
         private void Awake()
         {
             _input = Infrastructure.Game.Input;
+            var heroMover = new HeroMover(_input, _rigidbody, _speed);
             
-            var groundedState = new GroundedState(_input, _rigidbody, _animations, transform, _speed);
+            var groundedState = new GroundedState(heroMover, _animations);
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
@@ -37,7 +34,7 @@ namespace Game.Hero
                 
                 {
                     () => _input.JumpPressed && _groundDetector.CheckIsGrounded(),
-                    new JumpState(_input, _rigidbody, _groundDetector, _jumpForce, _animations)
+                    new JumpState(heroMover, _rigidbody, _jumpForce, _animations)
                 }
             };
             
@@ -57,8 +54,6 @@ namespace Game.Hero
             _currentState.Exit();
             _currentState = nextState;
             _currentState.Enter();
-            
-            CurrentStateName = _currentState.Name;
         }
 
         private IHeroState? GetNextState()

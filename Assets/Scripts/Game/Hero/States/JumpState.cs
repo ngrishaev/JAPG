@@ -1,23 +1,20 @@
-﻿using Services.Input;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Hero.States
 {
     public class JumpState : IHeroState
     {
-        private readonly IInput _input;
+        private readonly HeroMover _heroMover;
         private readonly Rigidbody2D _rigidbody;
-        private readonly GroundDetector _groundDetector;
         private readonly float _jumpForce;
         private readonly HeroAnimations _heroAnimations;
 
         public string Name => "JumpState";
 
-        public JumpState(IInput input, Rigidbody2D rigidbody, GroundDetector groundDetector, float jumpForce, HeroAnimations heroAnimations)
+        public JumpState(HeroMover heroMover, Rigidbody2D rigidbody, float jumpForce, HeroAnimations heroAnimations)
         {
-            _input = input;
+            _heroMover = heroMover;
             _rigidbody = rigidbody;
-            _groundDetector = groundDetector;
             _jumpForce = jumpForce;
             _heroAnimations = heroAnimations;
         }
@@ -32,6 +29,9 @@ namespace Game.Hero.States
         {
         }
 
-        public void Update(float deltaTime) { }
+        public void Update(float deltaTime)
+        {
+            _heroMover.UpdateMovement();
+        }
     }
 }
