@@ -14,6 +14,8 @@ namespace Game.Hero
         [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _speed;
+        [SerializeField] private AnimationCurve _jumpAnimationCurve = null!;
+        [SerializeField] private AnimationCurve _fallAnimationCurve = null!;
         
         private IInput _input = null!;
         private IHeroState _currentState = null!;
@@ -28,13 +30,13 @@ namespace Game.Hero
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
-                    () => !_input.JumpPressed && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < float.Epsilon,
+                    () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f,
                     groundedState
                 },
                 
                 {
-                    () => _input.JumpPressed && _groundDetector.CheckIsGrounded(),
-                    new JumpState(heroMover, _rigidbody, _jumpForce, _animations)
+                    () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
+                    new JumpState(_input, heroMover, _rigidbody, _jumpForce, _animations, _jumpAnimationCurve, _fallAnimationCurve)
                 }
             };
             
@@ -44,13 +46,18 @@ namespace Game.Hero
         private void Update()
         {
             _currentState.Update(Time.deltaTime);
-
+            
             var nextState = GetNextState();
             if (nextState == null)
             {
                 return;
             }
             
+            ChangeState(nextState);
+        }
+
+        private void ChangeState(IHeroState nextState)
+        {
             _currentState.Exit();
             _currentState = nextState;
             _currentState.Enter();

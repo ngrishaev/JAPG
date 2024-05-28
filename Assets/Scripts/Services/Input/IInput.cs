@@ -2,7 +2,8 @@
 {
     public interface IInput
     {
-        public float HorizontalMovement { get; }
-        public bool JumpPressed { get; }
+        float HorizontalMovement { get; }
+        bool JumpPressedDown { get; }
+        bool JumpPressed { get; }
     }
 }
