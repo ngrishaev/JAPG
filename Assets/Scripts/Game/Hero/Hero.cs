@@ -36,7 +36,12 @@ namespace Game.Hero
                 
                 {
                     () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
-                    new JumpState(_input, heroMover, _rigidbody, _jumpForce, _animations, _jumpAnimationCurve, _fallAnimationCurve)
+                    new JumpState(_input, heroMover, _rigidbody, _animations)
+                },
+                    
+                {
+                    () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded(),
+                    new FallingState(heroMover, _animations, _rigidbody)
                 }
             };
             

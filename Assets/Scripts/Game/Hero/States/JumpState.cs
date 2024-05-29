@@ -8,25 +8,18 @@ namespace Game.Hero.States
         private readonly IInput _input;
         private readonly HeroMover _heroMover;
         private readonly Rigidbody2D _rigidbody;
-        private readonly float _jumpForce;
         private readonly HeroAnimations _heroAnimations;
-        private readonly AnimationCurve _jumpAnimationCurve;
-        private readonly AnimationCurve _fallAnimationCurve;
-        private float _jumpTime;
         private float _jumpHeight = 3f;
 
         public string Name => "JumpState";
 
-        public JumpState(IInput input, HeroMover heroMover, Rigidbody2D rigidbody, float jumpForce,
-            HeroAnimations heroAnimations, AnimationCurve jumpAnimationCurve, AnimationCurve fallAnimationCurve)
+        public JumpState(IInput input, HeroMover heroMover, Rigidbody2D rigidbody,
+            HeroAnimations heroAnimations)
         {
             _input = input;
             _heroMover = heroMover;
             _rigidbody = rigidbody;
-            _jumpForce = jumpForce;
             _heroAnimations = heroAnimations;
-            _jumpAnimationCurve = jumpAnimationCurve;
-            _fallAnimationCurve = fallAnimationCurve;
         }
 
         public void Enter()
@@ -44,11 +37,6 @@ namespace Game.Hero.States
         public void Update(float deltaTime)
         {
             _heroMover.UpdateMovement();
-            if (!_input.JumpPressed)
-            {
-                _rigidbody.gravityScale = 5f;
-                
-            }
         }
     }
 }
