@@ -1,9 +1,10 @@
 ﻿using Game;
+using Infrastructure.Factory;
 using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
 
-namespace Infrastructure
+namespace Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {

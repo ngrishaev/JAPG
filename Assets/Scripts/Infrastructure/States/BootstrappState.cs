@@ -1,4 +1,6 @@
-﻿namespace Infrastructure
+﻿using Services.Input;
+
+namespace Infrastructure.States
 {
     public class BootstrappState : IState
     {
@@ -25,7 +27,7 @@
 
         private void RegisterServices()
         {
-            Game.Input = new Services.Input.KeyboardInput();
+            Game.Input = new KeyboardInput();
         }
     }
 }

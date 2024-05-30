@@ -1,6 +1,7 @@
-﻿using UnityEngine;
+﻿using Infrastructure.States;
+using UnityEngine;
 
-namespace Infrastructure
+namespace Infrastructure.Factory
 {
     public interface IGameFactory
     {
