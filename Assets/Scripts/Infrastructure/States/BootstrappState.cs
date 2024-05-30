@@ -1,4 +1,7 @@
-﻿using Services.Input;
+﻿using Infrastructure.AssetsManagement;
+using Infrastructure.Factory;
+using Infrastructure.Services;
+using Services.Input;
 
 namespace Infrastructure.States
 {
@@ -28,6 +31,8 @@ namespace Infrastructure.States
         private void RegisterServices()
         {
             Game.Input = new KeyboardInput();
+
+            AllServices.Container.RegisterSingle<IGameFactory>(new GameFactory(AllServices.Container.Single<IAssetProvider>()));
         }
     }
 }
