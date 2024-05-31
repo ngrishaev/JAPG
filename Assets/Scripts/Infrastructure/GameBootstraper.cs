@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Infrastructure
 {
-    public class GameBootstrapper : MonoBehaviour, ICoroutineRunner
+    public class GameBootstraper : MonoBehaviour, ICoroutineRunner
     {
         private Game _game = null!;
         [SerializeField] private LoadingCurtain _curtain = null!;
@@ -12,7 +12,7 @@ namespace Infrastructure
         private void Awake()
         {
             _game = new Game(this, _curtain);
-            _game.StateMachine.Enter<BootstrappState>();
+            _game.StateMachine.Enter<BootstrapState>();
 
             DontDestroyOnLoad(this);
         }

@@ -5,13 +5,13 @@ using Services.Input;
 
 namespace Infrastructure.States
 {
-    public class BootstrappState : IState
+    public class BootstrapState : IState
     {
         private const string Initial = "Initial";
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
 
-        public BootstrappState(GameStateMachine stateMachine, SceneLoader sceneLoader)
+        public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;

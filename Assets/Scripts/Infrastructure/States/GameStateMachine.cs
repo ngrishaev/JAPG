@@ -13,7 +13,7 @@ namespace Infrastructure.States
         {
             _states = new Dictionary<Type, IExitableState>()
             {
-                {typeof(BootstrappState), new BootstrappState(this, sceneLoader)},
+                {typeof(BootstrapState), new BootstrapState(this, sceneLoader)},
                 {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, curtain)},
                 {typeof(GameLoopState), new GameLoopState()},
             };
