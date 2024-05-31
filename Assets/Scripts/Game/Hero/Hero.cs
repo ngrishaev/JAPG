@@ -15,8 +15,6 @@ namespace Game.Hero
         [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private float _jumpForce;
         [SerializeField] private float _speed;
-        [SerializeField] private AnimationCurve _jumpAnimationCurve = null!;
-        [SerializeField] private AnimationCurve _fallAnimationCurve = null!;
         
         private IInput _input = null!;
         private IHeroState _currentState = null!;
