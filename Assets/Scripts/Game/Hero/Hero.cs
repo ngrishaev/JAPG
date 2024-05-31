@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Game.Hero.States;
+using Infrastructure.Services;
 using Services.Input;
 using UnityEngine;
 
@@ -23,7 +24,7 @@ namespace Game.Hero
         
         private void Awake()
         {
-            _input = Infrastructure.Game.Input;
+            _input = AllServices.Container.Single<IInput>();
             var heroMover = new HeroMover(_input, _rigidbody, _speed);
             
             var groundedState = new GroundedState(heroMover, _animations);

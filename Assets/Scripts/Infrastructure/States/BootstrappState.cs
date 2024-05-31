@@ -23,15 +23,15 @@ namespace Infrastructure.States
             _sceneLoader.Load(Initial, onLoaded: EnterLoadLevel);
         }
 
+        public void Exit() { }
+
         private void EnterLoadLevel() => 
             _stateMachine.Enter<LoadLevelState, string>("Level1");
 
-        public void Exit() { }
-
         private void RegisterServices()
         {
-            Game.Input = new KeyboardInput();
-
+            AllServices.Container.RegisterSingle<IInput>(new KeyboardInput());
+            AllServices.Container.RegisterSingle<IAssetProvider>(new AssetProvider());
             AllServices.Container.RegisterSingle<IGameFactory>(new GameFactory(AllServices.Container.Single<IAssetProvider>()));
         }
     }
