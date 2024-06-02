@@ -9,6 +9,6 @@ namespace Infrastructure.Services.PersistentProgress
 
     public interface IProgressWriter
     {
-        void UpdateProgress(PlayerProgress progress);
+        void WriteProgress(PlayerProgress progress);
     }
 }

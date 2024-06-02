@@ -10,7 +10,6 @@ namespace Infrastructure.States
     public class BootstrapState : IState
     {
         private const string InitialScene = "Initial";
-        private const string Level1Scene = "Level1";
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly AllServices _services;
@@ -39,7 +38,7 @@ namespace Infrastructure.States
             _services.RegisterSingle<IInput>(new KeyboardInput());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>()));
-            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService());
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Game;
 using Infrastructure.Factory;
+using Infrastructure.Services.PersistentProgress;
 using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -13,13 +14,21 @@ namespace Infrastructure.States
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
+        private readonly IPersistentProgressService _progressService;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingCurtain curtain, IGameFactory gameFactory)
+        public LoadLevelState(
+            GameStateMachine gameStateMachine,
+            SceneLoader sceneLoader,
+            LoadingCurtain curtain,
+            IGameFactory gameFactory,
+            IPersistentProgressService progressService)
+        
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
             _curtain = curtain;
             _gameFactory = gameFactory;
+            _progressService = progressService;
         }
 
         public void Enter(string sceneName)
@@ -36,12 +45,24 @@ namespace Infrastructure.States
 
         private void OnSceneLoaded()
         {
+            InitGameWorld();
+            InformProgressReaders();
+
+            _gameStateMachine.Enter<GameLoopState>();
+        }
+
+        private void InformProgressReaders()
+        {
+            foreach (var reader in _gameFactory.ProgressReaders) 
+                reader.LoadProgress(_progressService.Progress);
+        }
+
+        private void InitGameWorld()
+        {
             var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint), this);
 
             Assert.IsNotNull(Camera.main, "Main camera is missing");
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
-            
-            _gameStateMachine.Enter<GameLoopState>();
         }
     }
 }

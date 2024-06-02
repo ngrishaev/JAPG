@@ -75,7 +75,7 @@ namespace Game.Hero
             return _transitions.FirstOrDefault(transition => transition.Key()).Value ?? null;
         }
 
-        public void UpdateProgress(PlayerProgress progress) => 
+        public void WriteProgress(PlayerProgress progress) => 
             progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVector3Data());
 
         public void LoadProgress(PlayerProgress progress)

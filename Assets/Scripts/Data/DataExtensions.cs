@@ -12,5 +12,8 @@ namespace Data
 
         public static TTargetType ToDeserialized<TTargetType>(this string json) => 
             JsonUtility.FromJson<TTargetType>(json);
+        
+        public static string ToJson(this object obj) => 
+            JsonUtility.ToJson(obj);
     }
 }
