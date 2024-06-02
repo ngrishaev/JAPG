@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using Infrastructure.Factory;
 using Infrastructure.Services;
+using Infrastructure.Services.PersistentProgress;
+using Infrastructure.Services.PersistentProgress.SaveLoad;
 using UI;
 
 namespace Infrastructure.States
@@ -16,22 +18,17 @@ namespace Infrastructure.States
             _states = new Dictionary<Type, IExitableState>()
             {
                 {typeof(BootstrapState), new BootstrapState(this, sceneLoader, services)},
+                {typeof(LoadProgressState), new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>())},
                 {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>())},
                 {typeof(GameLoopState), new GameLoopState()},
             };
         }
         
-        public void Enter<TState>() where TState : class, IState
-        {
-            var state = ChangeState<TState>();
-            state.Enter();
-        }
+        public void Enter<TState>() where TState : class, IState => 
+            ChangeState<TState>().Enter();
 
-        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload>
-        {
-            var state = ChangeState<TState>();
-            state.Enter(payload);
-        }
+        public void Enter<TState, TPayload>(TPayload payload) where TState : class, IPayloadedState<TPayload> => 
+            ChangeState<TState>().Enter(payload);
 
         private TState ChangeState<TState>() where TState : class, IExitableState
         {
@@ -42,9 +39,7 @@ namespace Infrastructure.States
             return state;
         }
 
-        private TState GetState<TState>() where TState : class, IExitableState
-        {
-            return (TState) _states[typeof(TState)];
-        }
+        private TState GetState<TState>() where TState : class, IExitableState => 
+            (TState) _states[typeof(TState)];
     }
 }

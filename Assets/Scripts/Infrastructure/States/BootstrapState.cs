@@ -12,7 +12,7 @@ namespace Infrastructure.States
         private const string Level1Scene = "Level1";
         private readonly GameStateMachine _stateMachine;
         private readonly SceneLoader _sceneLoader;
-        private AllServices _services;
+        private readonly AllServices _services;
 
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
         {
