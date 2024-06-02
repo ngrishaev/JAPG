@@ -11,7 +11,7 @@ using UnityEngine.SceneManagement;
 
 namespace Game.Hero
 {
-    public class Hero : MonoBehaviour, IProgressUpdater, IProgressReader
+    public class Hero : MonoBehaviour, IProgressWriter, IProgressReader
     {
         [SerializeField] private Rigidbody2D _rigidbody = null!;
         [SerializeField] private HeroAnimations _animations = null!;

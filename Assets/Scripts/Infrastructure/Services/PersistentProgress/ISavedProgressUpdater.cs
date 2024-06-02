@@ -7,7 +7,7 @@ namespace Infrastructure.Services.PersistentProgress
         void LoadProgress(PlayerProgress progress);
     }
 
-    public interface IProgressUpdater
+    public interface IProgressWriter
     {
         void UpdateProgress(PlayerProgress progress);
     }
