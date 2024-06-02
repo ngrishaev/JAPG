@@ -8,7 +8,7 @@ namespace Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private const string Initialpoint = "InitialPoint";
+        private const string InitialPoint = "InitialPoint";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
@@ -35,7 +35,7 @@ namespace Infrastructure.States
 
         private void OnSceneLoaded()
         {
-            var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(Initialpoint), this);
+            var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint), this);
 
             Assert.IsNotNull(Camera.main, "Main camera is missing");
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);

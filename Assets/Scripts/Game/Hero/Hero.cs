@@ -1,14 +1,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Data;
 using Game.Hero.States;
 using Infrastructure.Services;
+using Infrastructure.Services.PersistentProgress;
 using Services.Input;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Game.Hero
 {
-    public class Hero : MonoBehaviour
+    public class Hero : MonoBehaviour, IProgressUpdater, IProgressReader
     {
         [SerializeField] private Rigidbody2D _rigidbody = null!;
         [SerializeField] private HeroAnimations _animations = null!;
@@ -71,5 +74,20 @@ namespace Game.Hero
         {
             return _transitions.FirstOrDefault(transition => transition.Key()).Value ?? null;
         }
+
+        public void UpdateProgress(PlayerProgress progress) => 
+            progress.WorldData.PositionOnLevel = new PositionOnLevel(CurrentLevel(), transform.position.AsVector3Data());
+
+        public void LoadProgress(PlayerProgress progress)
+        {
+            if(!CurrentLevel().Equals(progress.WorldData.PositionOnLevel.Level))
+                return;
+            
+            var savedPosition = progress.WorldData.PositionOnLevel.Position;
+            transform.position = savedPosition.AsVector3();
+        }
+
+        private static string CurrentLevel() => 
+            SceneManager.GetActiveScene().name;
     }
 }
