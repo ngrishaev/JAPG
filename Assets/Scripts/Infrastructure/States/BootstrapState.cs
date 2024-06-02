@@ -2,6 +2,7 @@
 using Infrastructure.Factory;
 using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress;
+using Infrastructure.Services.PersistentProgress.SaveLoad;
 using Services.Input;
 
 namespace Infrastructure.States
@@ -31,13 +32,14 @@ namespace Infrastructure.States
         public void Exit() { }
 
         private void EnterLoadLevel() => 
-            _stateMachine.Enter<LoadLevelState, string>(Level1Scene);
+            _stateMachine.Enter<LoadProgressState>();
 
         private void RegisterServices()
         {
             _services.RegisterSingle<IInput>(new KeyboardInput());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>()));
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
         }
     }

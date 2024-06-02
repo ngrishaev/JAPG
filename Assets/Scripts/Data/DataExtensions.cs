@@ -1,4 +1,6 @@
-﻿namespace Data
+﻿using UnityEngine;
+
+namespace Data
 {
     public static class DataExtensions
     {
@@ -7,5 +9,8 @@
         
         public static UnityEngine.Vector3 AsVector3(this Vector3Data vector) =>
             new(vector.X, vector.Y, vector.Z);
+
+        public static TTargetType ToDeserialized<TTargetType>(this string json) => 
+            JsonUtility.FromJson<TTargetType>(json);
     }
 }

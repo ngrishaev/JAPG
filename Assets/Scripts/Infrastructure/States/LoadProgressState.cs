@@ -1,5 +1,4 @@
-﻿using System;
-using Data;
+﻿using Data;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
 
