@@ -84,6 +84,9 @@ namespace Game.Hero
                 return;
             
             var savedPosition = progress.WorldData.PositionOnLevel.Position;
+            if (savedPosition == null)
+                return;
+            
             transform.position = savedPosition.AsVector3();
         }
 
