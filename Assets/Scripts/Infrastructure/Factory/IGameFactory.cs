@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress;
-using Infrastructure.States;
 using UnityEngine;
 
 namespace Infrastructure.Factory
@@ -10,7 +10,9 @@ namespace Infrastructure.Factory
     {
         List<IProgressReader> ProgressReaders { get; }
         List<IProgressWriter> ProgressWriters { get; }
-        GameObject CreateHero(GameObject at, LoadLevelState loadLevelState);
+        GameObject? Hero { get; }
+        GameObject CreateHero(GameObject at);
         void CleanUp();
+        event Action<GameObject>? OnHeroCreated;
     }
 }

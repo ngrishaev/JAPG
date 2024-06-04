@@ -16,13 +16,13 @@ namespace Game.Hero
         [SerializeField] private Rigidbody2D _rigidbody = null!;
         [SerializeField] private HeroAnimations _animations = null!;
         [SerializeField] private GroundDetector _groundDetector = null!;
-        [SerializeField] private float _jumpForce;
         [SerializeField] private float _speed;
-        
+        [SerializeField] private float _jumpHeight;
+
         private IInput _input = null!;
         private IHeroState _currentState = null!;
         private Dictionary<Func<bool>, IHeroState> _transitions = new();
-        
+
         private void Awake()
         {
             _input = AllServices.Container.Single<IInput>();
@@ -38,7 +38,7 @@ namespace Game.Hero
                 
                 {
                     () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
-                    new JumpState(_input, heroMover, _rigidbody, _animations)
+                    new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight)
                 },
                     
                 {

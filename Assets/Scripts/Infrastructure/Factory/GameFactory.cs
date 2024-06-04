@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Infrastructure.AssetsManagement;
 using Infrastructure.Services.PersistentProgress;
-using Infrastructure.States;
 using UnityEngine;
 
 namespace Infrastructure.Factory
@@ -10,7 +10,10 @@ namespace Infrastructure.Factory
     {
         public List<IProgressReader> ProgressReaders { get; } = new();
         public List<IProgressWriter> ProgressWriters { get; } = new();
+        public GameObject? Hero { get; private set; } = null;
         
+        public event Action<GameObject>? OnHeroCreated; 
+
         private readonly IAssetProvider _assets;
 
         public GameFactory(IAssetProvider assets)
@@ -18,8 +21,13 @@ namespace Infrastructure.Factory
             _assets = assets;
         }
 
-        public GameObject CreateHero(GameObject at, LoadLevelState loadLevelState) => 
-            InstantiateRegistred(AssetsPaths.HeroPath, at.transform.position);
+        public GameObject CreateHero(GameObject at)
+        {
+            var hero = InstantiateRegistred(AssetsPaths.HeroPath, at.transform.position);
+            Hero = hero;
+            OnHeroCreated?.Invoke(hero);
+            return hero;
+        }
 
         private GameObject InstantiateRegistred(string prefabPath, Vector3 at)
         {

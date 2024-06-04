@@ -78,8 +78,8 @@ MonoBehaviour:
   _rigidbody: {fileID: 8367354692413607380}
   _animations: {fileID: 1252663175481745777}
   _groundDetector: {fileID: 8013230868663546323}
-  _jumpForce: 7
   _speed: 5
+  _jumpHeight: 3.5
 --- !u!114 &1252663175481745777
 MonoBehaviour:
   m_ObjectHideFlags: 0

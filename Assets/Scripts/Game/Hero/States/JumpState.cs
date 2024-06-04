@@ -9,17 +9,22 @@ namespace Game.Hero.States
         private readonly HeroMover _heroMover;
         private readonly Rigidbody2D _rigidbody;
         private readonly HeroAnimations _heroAnimations;
-        private float _jumpHeight = 3f;
+        private float _jumpHeight;
 
         public string Name => "JumpState";
 
-        public JumpState(IInput input, HeroMover heroMover, Rigidbody2D rigidbody,
-            HeroAnimations heroAnimations)
+        public JumpState(
+            IInput input,
+            HeroMover heroMover,
+            Rigidbody2D rigidbody,
+            HeroAnimations heroAnimations,
+            float jumpHeight)
         {
             _input = input;
             _heroMover = heroMover;
             _rigidbody = rigidbody;
             _heroAnimations = heroAnimations;
+            _jumpHeight = jumpHeight;
         }
 
         public void Enter()
