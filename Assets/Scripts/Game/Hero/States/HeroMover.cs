@@ -22,7 +22,7 @@ namespace Game.Hero.States
             float horizontalInput = _input.HorizontalMovement;
             _rigidbody.velocity = new Vector2(horizontalInput * _speed, _rigidbody.velocity.y);
             FacingDirection = GetDirection(horizontalInput, FacingDirection);
-            FaceThroughDirection(FacingDirection);
+            FaceByDirection(FacingDirection);
             
         }
 
@@ -34,7 +34,7 @@ namespace Game.Hero.States
                 _ => current
             };
 
-        private void FaceThroughDirection(Direction direction) =>
+        private void FaceByDirection(Direction direction) =>
             _rigidbody.transform.localScale = direction switch
             {
                 Direction.Left => new Vector3(-1, 1, 1),
