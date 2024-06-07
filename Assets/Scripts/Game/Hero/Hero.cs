@@ -92,5 +92,10 @@ namespace Game.Hero
 
         private static string CurrentLevel() => 
             SceneManager.GetActiveScene().name;
+
+        public void Damage()
+        {
+            Debug.Log("Hero was damaged!");
+        }
     }
 }
