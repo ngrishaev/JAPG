@@ -61,9 +61,9 @@ namespace Infrastructure.States
 
         private void InitGameWorld()
         {
-            InitSpawners();
-            
             var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
+            
+            InitSpawners();
 
             Assert.IsNotNull(Camera.main, "Main camera is missing");
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);

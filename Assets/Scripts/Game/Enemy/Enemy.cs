@@ -1,5 +1,3 @@
-using Infrastructure.Factory;
-using Infrastructure.Services;
 using UnityEngine;
 
 namespace Game.Enemy
@@ -12,18 +10,15 @@ namespace Game.Enemy
         [SerializeField] private float _shootCooldownTime = 2f;
         [SerializeField] private float _shootCooldownTimer = 0f;
         
-        
-        private GameObject? _hero;
-        private IGameFactory _gameFactory = null!;
+        private GameObject _hero = null!;
+        private int _hp;
+        private int _damage;
 
-        private void Start()
+        public void Construct(GameObject hero, int monsterDataHp, int monsterDataDamage)
         {
-            _gameFactory = AllServices.Container.Single<IGameFactory>();
-            if (_gameFactory.Hero == null) 
-                _gameFactory.OnHeroCreated += InitializeHero;
-            else
-                InitializeHero(_gameFactory.Hero);
-
+            _hero = hero;
+            _hp = monsterDataHp;
+            _damage = monsterDataDamage;
         }
 
         private void Update()
@@ -71,12 +66,6 @@ namespace Game.Enemy
             transform.localScale = hero.transform.position.x < transform.position.x
                 ? new Vector3(-1, 1, 1)
                 : new Vector3(1, 1, 1);
-        }
-
-        private void InitializeHero(GameObject hero)
-        {
-            _hero = hero;
-            _gameFactory.OnHeroCreated -= InitializeHero;
         }
     }
 }

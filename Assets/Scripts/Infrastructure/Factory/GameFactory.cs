@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using Game.Enemy;
 using Infrastructure.AssetsManagement;
 using Infrastructure.Services.PersistentProgress;
+using StaticData;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.Factory
 {
@@ -12,13 +15,15 @@ namespace Infrastructure.Factory
         public List<IProgressWriter> ProgressWriters { get; } = new();
         public GameObject? Hero { get; private set; } = null;
         
-        public event Action<GameObject>? OnHeroCreated; 
+        public event Action<GameObject>? OnHeroCreated;
 
         private readonly IAssetProvider _assets;
+        private readonly IStaticDataService _staticData;
 
-        public GameFactory(IAssetProvider assets)
+        public GameFactory(IAssetProvider assets, IStaticDataService staticData)
         {
             _assets = assets;
+            _staticData = staticData;
         }
 
         public GameObject CreateHero(GameObject at)
@@ -27,6 +32,14 @@ namespace Infrastructure.Factory
             Hero = hero;
             OnHeroCreated?.Invoke(hero);
             return hero;
+        }
+
+        public GameObject CreateMonster(MonsterTypeId typeId, Transform parent)
+        {
+            MonsterStaticData? monsterData = _staticData.GetMonster(typeId);
+            var monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity).GetComponent<Enemy>();
+            monster.Construct(Hero, monsterData.Hp, monsterData.Damage);
+            return monster.gameObject;
         }
 
         private GameObject InstantiateRegistred(string prefabPath, Vector3 at)

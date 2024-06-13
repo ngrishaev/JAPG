@@ -2,6 +2,6 @@
 {
     public static class AssetsPaths
     {
-        public const string HeroPath = "Hero";
+        public const string HeroPath = "Prefabs/Hero";
     }
 }

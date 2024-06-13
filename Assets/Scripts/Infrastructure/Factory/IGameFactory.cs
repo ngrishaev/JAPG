@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress;
+using StaticData;
 using UnityEngine;
 
 namespace Infrastructure.Factory
@@ -14,5 +15,6 @@ namespace Infrastructure.Factory
         GameObject CreateHero(GameObject at);
         void CleanUp();
         event Action<GameObject>? OnHeroCreated;
+        GameObject CreateMonster(MonsterTypeId typeId, Transform parent);
     }
 }
