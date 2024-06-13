@@ -1,4 +1,4 @@
-﻿namespace Game.Enemy
+﻿namespace StaticData
 {
     public enum MonsterTypeId
     {

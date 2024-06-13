@@ -1,4 +1,5 @@
 ﻿using Game;
+using Game.Enemy;
 using Infrastructure.Factory;
 using Infrastructure.Services.PersistentProgress;
 using UI;
@@ -10,6 +11,7 @@ namespace Infrastructure.States
     public class LoadLevelState : IPayloadedState<string>
     {
         private const string InitialPoint = "InitialPoint";
+        private const string EnemySpawnerTag = "EnemySpawner";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
@@ -59,10 +61,21 @@ namespace Infrastructure.States
 
         private void InitGameWorld()
         {
+            InitSpawners();
+            
             var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
 
             Assert.IsNotNull(Camera.main, "Main camera is missing");
             Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
+        }
+
+        private void InitSpawners()
+        {
+            foreach (var spawnerObject in GameObject.FindGameObjectsWithTag(EnemySpawnerTag))
+            {
+                var spawner = spawnerObject.GetComponent<EnemySpawner>();
+                spawner.Spawn();
+            }
         }
     }
 }
