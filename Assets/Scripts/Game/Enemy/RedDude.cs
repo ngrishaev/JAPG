@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class Enemy : MonoBehaviour
+    public class RedDude : MonoBehaviour
     {
         [SerializeField] private Transform _bulletsSpawnPoint = null!;
         [SerializeField] private Transform _transform = null!;
@@ -11,14 +11,10 @@ namespace Game.Enemy
         [SerializeField] private float _shootCooldownTimer = 0f;
         
         private GameObject _hero = null!;
-        private int _hp;
-        private int _damage;
 
-        public void Construct(GameObject hero, int monsterDataHp, int monsterDataDamage)
+        public void Construct(GameObject hero)
         {
             _hero = hero;
-            _hp = monsterDataHp;
-            _damage = monsterDataDamage;
         }
 
         private void Update()
@@ -58,6 +54,7 @@ namespace Game.Enemy
         }
 
         // Extract this method into separate component
+
         private void RotateToTarget(GameObject? hero)
         {
             if (hero == null) 

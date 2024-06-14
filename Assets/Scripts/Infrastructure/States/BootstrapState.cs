@@ -4,7 +4,6 @@ using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
 using Services.Input;
-using StaticData;
 
 namespace Infrastructure.States
 {
@@ -36,20 +35,10 @@ namespace Infrastructure.States
 
         private void RegisterServices()
         {
-            RegisterStaticData();
-            
             _services.RegisterSingle<IInput>(new KeyboardInput());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
-            _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>(), _services.Single<IStaticDataService>()));
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
-        }
-
-        private void RegisterStaticData()
-        {
-            var staticDataService = new StaticDataService();
-            staticDataService.LoadMonsters();
-            _services.RegisterSingle<IStaticDataService>(staticDataService);
         }
     }
 }

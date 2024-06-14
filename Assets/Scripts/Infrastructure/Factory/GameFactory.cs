@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Game.Enemy;
 using Infrastructure.AssetsManagement;
 using Infrastructure.Services.PersistentProgress;
-using StaticData;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
@@ -18,12 +17,10 @@ namespace Infrastructure.Factory
         public event Action<GameObject>? OnHeroCreated;
 
         private readonly IAssetProvider _assets;
-        private readonly IStaticDataService _staticData;
 
-        public GameFactory(IAssetProvider assets, IStaticDataService staticData)
+        public GameFactory(IAssetProvider assets)
         {
             _assets = assets;
-            _staticData = staticData;
         }
 
         public GameObject CreateHero(GameObject at)
@@ -32,14 +29,6 @@ namespace Infrastructure.Factory
             Hero = hero;
             OnHeroCreated?.Invoke(hero);
             return hero;
-        }
-
-        public GameObject CreateMonster(MonsterTypeId typeId, Transform parent)
-        {
-            MonsterStaticData? monsterData = _staticData.GetMonster(typeId);
-            var monster = Object.Instantiate(monsterData.Prefab, parent.position, Quaternion.identity).GetComponent<Enemy>();
-            monster.Construct(Hero, monsterData.Hp, monsterData.Damage);
-            return monster.gameObject;
         }
 
         private GameObject InstantiateRegistred(string prefabPath, Vector3 at)
