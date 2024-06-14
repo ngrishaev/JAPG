@@ -71,8 +71,9 @@ namespace Infrastructure.States
 
         private void InitRedDudes(GameObject hero)
         {
-            var redDudes = Object.FindObjectOfType<RedDude>();
-            redDudes.Construct(hero);
+            var redDudes = Object.FindObjectsOfType<RedDude>();
+            foreach (var dude in redDudes) 
+                dude.Construct(hero);
         }
     }
 }
