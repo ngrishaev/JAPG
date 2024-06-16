@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Data;
+using Game.Data;
 using Game.Hero.States;
 using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress;
@@ -22,13 +23,16 @@ namespace Game.Hero
         private IInput _input = null!;
         private IHeroState _currentState = null!;
         private Dictionary<Func<bool>, IHeroState> _transitions = new();
+        private HeroData _heroData = null!;
 
         private void Awake()
         {
             _input = AllServices.Container.Single<IInput>();
-            var heroMover = new HeroMover(_input, _rigidbody, _speed);
+            _heroData = new HeroData(); // TODO - load in load level state;
             
-            var groundedState = new GroundedState(heroMover, _animations);
+            var heroMover = new HeroMover(_input, _rigidbody, _speed);
+
+            var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData);
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
@@ -39,6 +43,11 @@ namespace Game.Hero
                 {
                     () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
                     new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight)
+                },
+                
+                {
+                    () => _input.JumpPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.JumpData.HaveAirJump,
+                    new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight)
                 },
                     
                 {
