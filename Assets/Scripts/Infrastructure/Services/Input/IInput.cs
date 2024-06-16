@@ -5,5 +5,6 @@
         float HorizontalMovement { get; }
         bool JumpPressedDown { get; }
         bool JumpPressed { get; }
+        bool DashPressedDown { get; }
     }
 }

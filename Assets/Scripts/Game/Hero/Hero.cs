@@ -36,7 +36,18 @@ namespace Game.Hero
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
-                    () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f,
+                    () =>
+                    {
+                        var isDashPressed = _input.DashPressedDown;
+                        var isGrounded = _groundDetector.CheckIsGrounded();
+                        Debug.Log($"Dash pressed: {isDashPressed}, is grounded: {isGrounded}. Can dash: {isDashPressed && isGrounded}");
+                        return isDashPressed && isGrounded;
+                    },
+                    new DashState(_rigidbody, _heroData.DashData)
+                },
+                
+                {
+                    () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f && !_heroData.DashData.IsDashing,
                     groundedState
                 },
                 
@@ -53,7 +64,7 @@ namespace Game.Hero
                 {
                     () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded(),
                     new FallingState(heroMover, _animations, _rigidbody)
-                }
+                },
             };
             
             _currentState = groundedState;

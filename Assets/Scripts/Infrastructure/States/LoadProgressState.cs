@@ -20,10 +20,11 @@ namespace Infrastructure.States
 
         public void Enter()
         {
+            LoadProgressOrInitNew();
+            
             if(_progressService.Progress == null)
                 throw new Exception("Progress is not initialized"); // TODO: Create custom exception so it's ensure that argument is not null
             
-            LoadProgressOrInitNew();
             _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
         }
 

@@ -7,5 +7,6 @@ namespace Infrastructure.Services.Input
         public float HorizontalMovement => UnityEngine.Input.GetAxisRaw("Horizontal");
         public bool JumpPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.Space);
         public bool JumpPressed => UnityEngine.Input.GetKey(KeyCode.Space);
+        public bool DashPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftShift);
     }
 }

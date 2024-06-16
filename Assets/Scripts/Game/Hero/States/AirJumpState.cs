@@ -14,7 +14,7 @@ namespace Game.Hero.States
         private readonly HeroJumpData _jumpData;
         private float _jumpHeight;
 
-        public string Name => "JumpState";
+        public string Name => "AirJumpState";
 
         public AirJumpState(
             IInput input,
