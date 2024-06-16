@@ -1,9 +1,8 @@
-﻿using System;
-using Infrastructure.Services;
+﻿using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
 using UnityEngine;
 
-namespace Game
+namespace Game.Level
 {
     public class SaveTrigger : MonoBehaviour
     {

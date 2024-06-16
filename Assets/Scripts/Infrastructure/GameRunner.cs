@@ -4,7 +4,7 @@ namespace Infrastructure
 {
     public class GameRunner : MonoBehaviour
     {
-        public GameBootstraper _bootstrap = null!;
+        [SerializeField] private GameBootstraper _bootstrap = null!;
         
         private void Awake()
         {

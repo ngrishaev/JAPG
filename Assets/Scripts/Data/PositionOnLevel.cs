@@ -6,7 +6,7 @@ namespace Data
     public class PositionOnLevel
     {
         public string Level;
-        public Vector3Data? Position = null;
+        public Vector3Data? Position;
 
         public PositionOnLevel(string initialLevel)
         {

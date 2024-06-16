@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System;
+using Data;
 using Infrastructure.Factory;
 using UnityEngine;
 
@@ -21,6 +22,9 @@ namespace Infrastructure.Services.PersistentProgress.SaveLoad
 
         public void SaveProgress()
         {
+            if(_progressService.Progress == null)
+                throw new Exception("Progress is not initialized"); // TODO: Create custom exception so it's ensure that argument is not null
+            
             foreach (var writer in _gameFactory.ProgressWriters) 
                 writer.WriteProgress(_progressService.Progress);
             

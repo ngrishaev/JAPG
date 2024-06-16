@@ -1,6 +1,4 @@
-﻿using Infrastructure.Services;
-
-namespace Services.Input
+﻿namespace Infrastructure.Services.Input
 {
     public interface IInput : IService
     {

@@ -5,8 +5,8 @@ using Data;
 using Game.Data;
 using Game.Hero.States;
 using Infrastructure.Services;
+using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
-using Services.Input;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 

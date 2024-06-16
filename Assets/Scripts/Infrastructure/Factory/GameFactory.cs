@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Game.Enemy;
 using Infrastructure.AssetsManagement;
 using Infrastructure.Services.PersistentProgress;
 using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace Infrastructure.Factory
 {
@@ -12,7 +10,7 @@ namespace Infrastructure.Factory
     {
         public List<IProgressReader> ProgressReaders { get; } = new();
         public List<IProgressWriter> ProgressWriters { get; } = new();
-        public GameObject? Hero { get; private set; } = null;
+        public GameObject? Hero { get; private set; }
         
         public event Action<GameObject>? OnHeroCreated;
 
@@ -33,7 +31,7 @@ namespace Infrastructure.Factory
 
         private GameObject InstantiateRegistred(string prefabPath, Vector3 at)
         {
-            var gameObject = _assets.Instantiate(prefabPath, at);
+            var gameObject = Instantiate(prefabPath, at);
             RegisterProgressWatchers(gameObject);
             return gameObject;
         }

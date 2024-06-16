@@ -1,17 +1,18 @@
-﻿using Game;
+﻿using System;
 using Game.Enemy;
+using Game.Hero;
 using Infrastructure.Factory;
 using Infrastructure.Services.PersistentProgress;
 using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
+using Object = UnityEngine.Object;
 
 namespace Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
         private const string InitialPoint = "InitialPoint";
-        private const string EnemySpawnerTag = "EnemySpawner";
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
         private readonly LoadingCurtain _curtain;
@@ -55,6 +56,9 @@ namespace Infrastructure.States
 
         private void InformProgressReaders()
         {
+            if(_progressService.Progress == null)
+                throw new Exception("Progress is not initialized"); // TODO: Create custom exception so it's ensure that argument is not null
+            
             foreach (var reader in _gameFactory.ProgressReaders) 
                 reader.LoadProgress(_progressService.Progress);
         }

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System;
+using Data;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
 
@@ -19,6 +20,9 @@ namespace Infrastructure.States
 
         public void Enter()
         {
+            if(_progressService.Progress == null)
+                throw new Exception("Progress is not initialized"); // TODO: Create custom exception so it's ensure that argument is not null
+            
             LoadProgressOrInitNew();
             _gameStateMachine.Enter<LoadLevelState, string>(_progressService.Progress.WorldData.PositionOnLevel.Level);
         }

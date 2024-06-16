@@ -8,7 +8,7 @@ namespace Game.Enemy
         [SerializeField] private Transform _transform = null!;
         [SerializeField] private Bullet _bulletPrefab = null!;
         [SerializeField] private float _shootCooldownTime = 2f;
-        [SerializeField] private float _shootCooldownTimer = 0f;
+        [SerializeField] private float _shootCooldownTimer;
         
         private GameObject _hero = null!;
 
@@ -54,7 +54,6 @@ namespace Game.Enemy
         }
 
         // Extract this method into separate component
-
         private void RotateToTarget(GameObject? hero)
         {
             if (hero == null) 

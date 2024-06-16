@@ -1,9 +1,9 @@
 ﻿using Infrastructure.AssetsManagement;
 using Infrastructure.Factory;
 using Infrastructure.Services;
+using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
-using Services.Input;
 using UnityEngine;
 
 namespace Infrastructure.States
