@@ -6,6 +6,7 @@ namespace Game.Hero.States
     {
         private readonly HeroAnimations _heroAnimations;
         private readonly HeroJumpData _jumpData;
+        private readonly HeroDashData _dashData;
         private readonly HeroMover _heroMover;
 
         public string Name => "GroundedState";
@@ -13,16 +14,20 @@ namespace Game.Hero.States
         public GroundedState(
             HeroMover heroMover,
             HeroAnimations heroAnimations,
-            HeroJumpData jumpData)
+            HeroJumpData jumpData,
+            HeroDashData dashData
+            )
         {
             _heroAnimations = heroAnimations;
             _jumpData = jumpData;
+            _dashData = dashData;
             _heroMover = heroMover;
         }
 
         public void Enter()
         {
             _jumpData.ResetAirJump();
+            _dashData.ResetAirDash();
         }
 
         public void Update(float deltaTime)
@@ -35,9 +40,6 @@ namespace Game.Hero.States
                 _heroAnimations.PlayIdleAnimation();
         }
 
-        public void Exit()
-        {
-            
-        }
+        public void Exit() { }
     }
 }

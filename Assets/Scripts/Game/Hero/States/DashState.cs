@@ -8,9 +8,9 @@ namespace Game.Hero.States
         private readonly Rigidbody2D _playerBody;
         private readonly HeroDashData _dashData;
         public string Name => "DashState";
-        private float _distance = 3f;
-        private float _timeLengthSeconds = 0.5f;
-        private Vector2 _endPosition;
+        private const float _force = 10f;
+        private const float _timeLengthSeconds = 0.2f;
+        private float _currentDashTime;
 
         public DashState(Rigidbody2D playerBody, HeroDashData dashData)
         {
@@ -21,30 +21,55 @@ namespace Game.Hero.States
         public void Enter()
         {
             _dashData.StartDash();
-            
-            var obstacle = Physics2D.Raycast(_playerBody.position, _playerBody.transform.right, _distance);
-            if (obstacle.collider == null)
-            {
-                _endPosition = _playerBody.position + (Vector2)_playerBody.transform.right * _distance;
-                return;
-            }
-            
-            _endPosition = obstacle.point;
-            
-            
+            _playerBody.velocity = new Vector2(_playerBody.transform.localScale.x * _force, 0);
+            _currentDashTime = _timeLengthSeconds;
         }
 
-        public void Exit()
-        {
-        }
+        public void Exit() { }
 
         public void Update(float deltaTime)
         {
-            var speed = _distance / _timeLengthSeconds;
-            _playerBody.position = Vector2.MoveTowards(_playerBody.position, _endPosition, speed * deltaTime);
-            
-            if (Mathf.Abs(_playerBody.position.x - _endPosition.x) < 0.001f) 
+            _currentDashTime -= deltaTime;
+            if (_currentDashTime <= 0) 
                 _dashData.EndDash();
+        }
+    }
+    
+    public class AirDashState : IHeroState
+    {
+        private readonly Rigidbody2D _playerBody;
+        private readonly HeroDashData _dashData;
+        public string Name => "AirDashState";
+        private const float _force = 10f;
+        private const float _timeLengthSeconds = 0.2f;
+        private float _currentDashTime;
+
+        public AirDashState(Rigidbody2D playerBody, HeroDashData dashData)
+        {
+            _playerBody = playerBody;
+            _dashData = dashData;
+        }
+
+        public void Enter()
+        {
+            _dashData.StartDash();
+            _dashData.SpendAirDash();
+            _playerBody.velocity = new Vector2(_playerBody.transform.localScale.x * _force, 0);
+            _currentDashTime = _timeLengthSeconds;
+        }
+
+        public void Exit() { }
+
+        public void Update(float deltaTime)
+        {
+            _currentDashTime -= deltaTime;
+            if (_currentDashTime <= 0)
+            {
+                _dashData.EndDash();
+                return;
+            }
+            
+            _playerBody.velocity = new Vector2(_playerBody.velocity.x, 0);
         }
     }
 }

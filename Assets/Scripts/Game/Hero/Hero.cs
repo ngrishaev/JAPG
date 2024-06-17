@@ -32,18 +32,17 @@ namespace Game.Hero
             
             var heroMover = new HeroMover(_input, _rigidbody, _speed);
 
-            var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData);
+            var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
-                    () =>
-                    {
-                        var isDashPressed = _input.DashPressedDown;
-                        var isGrounded = _groundDetector.CheckIsGrounded();
-                        Debug.Log($"Dash pressed: {isDashPressed}, is grounded: {isGrounded}. Can dash: {isDashPressed && isGrounded}");
-                        return isDashPressed && isGrounded;
-                    },
+                    () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
                     new DashState(_rigidbody, _heroData.DashData)
+                },
+
+                {
+                    () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false },
+                    new AirDashState(_rigidbody, _heroData.DashData)
                 },
                 
                 {
@@ -62,7 +61,7 @@ namespace Game.Hero
                 },
                     
                 {
-                    () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded(),
+                    () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
                     new FallingState(heroMover, _animations, _rigidbody)
                 },
             };
@@ -79,7 +78,8 @@ namespace Game.Hero
             {
                 return;
             }
-            
+
+            Debug.Log($"Change state from {_currentState.Name} to {nextState.Name}");
             ChangeState(nextState);
         }
 
