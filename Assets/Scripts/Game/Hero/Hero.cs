@@ -36,12 +36,12 @@ namespace Game.Hero
             _transitions = new Dictionary<Func<bool>, IHeroState>()
             {
                 {
-                    () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
+                    () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
                     new DashState(_rigidbody, _heroData.DashData)
                 },
 
                 {
-                    () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false },
+                    () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
                     new AirDashState(_rigidbody, _heroData.DashData)
                 },
                 
@@ -72,7 +72,7 @@ namespace Game.Hero
         private void Update()
         {
             _currentState.Update(Time.deltaTime);
-            Debug.Log($"Update state {_currentState.Name}");
+            _heroData.DashData.UpdateCooldown(Time.deltaTime);
             
             var nextState = GetNextState();
             if (nextState == null)

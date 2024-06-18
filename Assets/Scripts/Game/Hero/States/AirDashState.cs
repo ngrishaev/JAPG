@@ -20,6 +20,8 @@ namespace Game.Hero.States
 
         public void Enter()
         {
+            _dashData.StartAirDash();
+            
             var force = Distance / TimeLengthSeconds;
             _playerBody.velocity = new Vector2(_playerBody.transform.localScale.x * force, 0);
             _currentDashTime = TimeLengthSeconds;
