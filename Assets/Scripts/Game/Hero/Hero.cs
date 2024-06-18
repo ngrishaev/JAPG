@@ -72,6 +72,7 @@ namespace Game.Hero
         private void Update()
         {
             _currentState.Update(Time.deltaTime);
+            Debug.Log($"Update state {_currentState.Name}");
             
             var nextState = GetNextState();
             if (nextState == null)
@@ -86,8 +87,10 @@ namespace Game.Hero
         private void ChangeState(IHeroState nextState)
         {
             _currentState.Exit();
+            Debug.Log($"Exit state {_currentState.Name}");
             _currentState = nextState;
             _currentState.Enter();
+            Debug.Log($"Enter state {_currentState.Name}");
         }
 
         private IHeroState? GetNextState()
