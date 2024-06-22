@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Data;
 using Game.Data;
 using Game.Hero.States;
@@ -23,6 +22,7 @@ namespace Game.Hero
         private IInput _input = null!;
         private IHeroState _currentState = null!;
         private Dictionary<Func<bool>, IHeroState> _transitions = new();
+        private HeroStateMachine _stateMachine = null!;
         private HeroData _heroData = null!;
 
         private void Awake()
@@ -30,72 +30,13 @@ namespace Game.Hero
             _input = AllServices.Container.Single<IInput>();
             _heroData = new HeroData(); // TODO - load in load level state;
             
-            var heroMover = new HeroMover(_input, _rigidbody, _speed);
-
-            var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
-            _transitions = new Dictionary<Func<bool>, IHeroState>()
-            {
-                {
-                    () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
-                    new DashState(_rigidbody, _heroData.DashData)
-                },
-
-                {
-                    () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
-                    new AirDashState(_rigidbody, _heroData.DashData)
-                },
-                
-                {
-                    () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f && !_heroData.DashData.IsDashing,
-                    groundedState
-                },
-                
-                {
-                    () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
-                    new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight)
-                },
-                
-                {
-                    () => _input.JumpPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.JumpData.HaveAirJump,
-                    new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight)
-                },
-                    
-                {
-                    () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
-                    new FallingState(heroMover, _animations, _rigidbody)
-                },
-            };
-            
-            _currentState = groundedState;
+            _stateMachine = CreatePlayerStateMachine();
         }
 
         private void Update()
         {
-            _currentState.Update(Time.deltaTime);
+            _stateMachine.Update(Time.deltaTime);
             _heroData.DashData.UpdateCooldown(Time.deltaTime);
-            
-            var nextState = GetNextState();
-            if (nextState == null)
-            {
-                return;
-            }
-
-            Debug.Log($"Change state from {_currentState.Name} to {nextState.Name}");
-            ChangeState(nextState);
-        }
-
-        private void ChangeState(IHeroState nextState)
-        {
-            _currentState.Exit();
-            Debug.Log($"Exit state {_currentState.Name}");
-            _currentState = nextState;
-            _currentState.Enter();
-            Debug.Log($"Enter state {_currentState.Name}");
-        }
-
-        private IHeroState? GetNextState()
-        {
-            return _transitions.FirstOrDefault(transition => transition.Key()).Value ?? null;
         }
 
         public void WriteProgress(PlayerProgress progress) => 
@@ -113,12 +54,49 @@ namespace Game.Hero
             transform.position = savedPosition.AsVector3();
         }
 
-        private static string CurrentLevel() => 
-            SceneManager.GetActiveScene().name;
-
         public void Damage()
         {
             Debug.Log("Hero was damaged!");
+        }
+
+        private static string CurrentLevel() => 
+            SceneManager.GetActiveScene().name;
+
+        private HeroStateMachine CreatePlayerStateMachine()
+        {
+            var heroMover = new HeroMover(_input, _rigidbody, _speed);
+            var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
+            
+            var transitionToDash = new Transition(
+                () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
+                new DashState(_rigidbody, _heroData.DashData));
+            var transitionToAirDash = new Transition(
+                () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
+                new AirDashState(_rigidbody, _heroData.DashData));
+            var transitionToJump = new Transition(
+                () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
+                new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight));
+            var transitionToGrounded = new Transition(
+                () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f && !_heroData.DashData.IsDashing,
+                groundedState);
+            var transitionToAirJump = new Transition(
+                () => _input.JumpPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.JumpData.HaveAirJump,
+                new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight));
+            var transitionToFalling = new Transition(
+                () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
+                new FallingState(heroMover, _animations, _rigidbody));
+            
+            var transitions = new HashSet<Transition>()
+            {
+                transitionToDash,
+                transitionToAirDash,
+                transitionToJump,
+                transitionToGrounded,
+                transitionToAirJump,
+                transitionToFalling
+            };
+
+            return new HeroStateMachine(groundedState, transitions);
         }
     }
 }
