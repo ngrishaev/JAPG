@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Data;
 using Game.Data;
@@ -20,8 +19,6 @@ namespace Game.Hero
         [SerializeField] private float _jumpHeight;
 
         private IInput _input = null!;
-        private IHeroState _currentState = null!;
-        private Dictionary<Func<bool>, IHeroState> _transitions = new();
         private HeroStateMachine _stateMachine = null!;
         private HeroData _heroData = null!;
 
@@ -68,22 +65,22 @@ namespace Game.Hero
             var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
             
             var transitionToDash = new Transition(
-                () => _input.DashPressedDown && _groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
+                () => _input.DashPressedDown && _groundDetector.IsGrounded && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
                 new DashState(_rigidbody, _heroData.DashData));
             var transitionToAirDash = new Transition(
-                () => _input.DashPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
+                () => _input.DashPressedDown && !_groundDetector.IsGrounded && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
                 new AirDashState(_rigidbody, _heroData.DashData));
             var transitionToJump = new Transition(
-                () => _input.JumpPressedDown && _groundDetector.CheckIsGrounded(),
+                () => _input.JumpPressedDown && _groundDetector.IsGrounded,
                 new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight));
             var transitionToGrounded = new Transition(
-                () => !_input.JumpPressedDown && _groundDetector.CheckIsGrounded() && _rigidbody.velocity.y < 0.001f && !_heroData.DashData.IsDashing,
+                () => !_input.JumpPressedDown && _groundDetector.IsGrounded && _rigidbody.velocity.y < 0.001f && !_heroData.DashData.IsDashing,
                 groundedState);
             var transitionToAirJump = new Transition(
-                () => _input.JumpPressedDown && !_groundDetector.CheckIsGrounded() && _heroData.JumpData.HaveAirJump,
+                () => _input.JumpPressedDown && !_groundDetector.IsGrounded && _heroData.JumpData.HaveAirJump,
                 new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight));
             var transitionToFalling = new Transition(
-                () => _rigidbody.velocity.y < 0 && !_groundDetector.CheckIsGrounded() && !_heroData.DashData.IsDashing,
+                () => _rigidbody.velocity.y < 0 && !_groundDetector.IsGrounded && !_heroData.DashData.IsDashing,
                 new FallingState(heroMover, _animations, _rigidbody));
             
             var transitions = new HashSet<Transition>()

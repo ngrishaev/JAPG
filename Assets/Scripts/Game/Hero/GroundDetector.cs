@@ -6,15 +6,14 @@ namespace Game.Hero
     {
         [SerializeField] private Collider2D _detector = null!;
         [SerializeField] private LayerMask _groundMask;
-    
-        public bool IsGrounded { get; private set; }
-
         [SerializeField] private float _boxCastYOffset = -0.1f;
         [SerializeField] private float _boxCastXOffset = 0.1f;
         [SerializeField] private float _boxCastWidth = 1f;
         [SerializeField] private float _boxCastHeight = 1f;
         [SerializeField] private Color _gizmosColorNotGrounded = Color.red;
         [SerializeField] private Color _gizmosColorGrounded = Color.green;
+        
+        public bool IsGrounded { get; private set; }
 
         private void OnDrawGizmos()
         {
@@ -25,16 +24,16 @@ namespace Game.Hero
 
         private void Update()
         {
-            CheckIsGrounded();
+            UpdateGroundedState();
         }
-        
-        public bool CheckIsGrounded()
+
+        private void UpdateGroundedState()
         {
-            RaycastHit2D raycastHit2D = Physics2D.BoxCast(
+            var raycastHit2D = Physics2D.BoxCast(
                 _detector.bounds.center + new Vector3(_boxCastXOffset, _boxCastYOffset, 0),
                 new Vector2(_boxCastWidth, _boxCastHeight), 0, Vector2.down, 0, _groundMask);
 
-            return IsGrounded = raycastHit2D.collider != null;
+            IsGrounded = raycastHit2D.collider != null;
         }
     }
 }
