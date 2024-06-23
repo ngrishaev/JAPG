@@ -1,6 +1,5 @@
 ﻿using System;
-using Game.Enemy;
-using Game.Hero;
+using Game.Room;
 using Infrastructure.Factory;
 using Infrastructure.Services.PersistentProgress;
 using UI;
@@ -64,6 +63,24 @@ namespace Infrastructure.States
         }
 
         private void InitGameWorld()
+        {
+            InitHero();
+            InitRooms();
+        }
+
+        private void InitRooms()
+        {
+            var camera = Camera.main;
+            Assert.IsNotNull(camera, message: "Main camera is not found");
+            
+            var rooms = Object.FindObjectsByType<Room>(FindObjectsSortMode.None);
+            foreach (var room in rooms)
+            {
+                room.Construct(camera);
+            }
+        }
+
+        private void InitHero()
         {
             var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
         }
