@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Game.Hero.States;
+using UnityEngine;
 
 namespace Game.Hero
 {
@@ -24,12 +25,16 @@ namespace Game.Hero
             if (nextState == null)
                 return;
             
+            if (nextState == _currentState)
+                return;
+            
             ChangeState(nextState);
         }
 
         private void ChangeState(IHeroState nextState)
         {
             _currentState.Exit();
+            Debug.Log($"Changing state from {_currentState.Name} to {nextState.Name}");
             _currentState = nextState;
             _currentState.Enter();
         }

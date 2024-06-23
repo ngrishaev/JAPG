@@ -13,11 +13,11 @@ namespace Game.Hero
         [SerializeField] private Color _gizmosColorNotGrounded = Color.red;
         [SerializeField] private Color _gizmosColorGrounded = Color.green;
         
-        public bool IsGrounded { get; private set; }
+        public bool GroundedDetected { get; private set; }
 
         private void OnDrawGizmos()
         {
-            Gizmos.color = IsGrounded ? _gizmosColorGrounded : _gizmosColorNotGrounded;
+            Gizmos.color = GroundedDetected ? _gizmosColorGrounded : _gizmosColorNotGrounded;
             Gizmos.DrawWireCube(_detector.bounds.center + new Vector3(_boxCastXOffset, _boxCastYOffset, 0),
                 new Vector3(_boxCastWidth, _boxCastHeight, 0));
         }
@@ -33,7 +33,7 @@ namespace Game.Hero
                 _detector.bounds.center + new Vector3(_boxCastXOffset, _boxCastYOffset, 0),
                 new Vector2(_boxCastWidth, _boxCastHeight), 0, Vector2.down, 0, _groundMask);
 
-            IsGrounded = raycastHit2D.collider != null;
+            GroundedDetected = raycastHit2D.collider != null;
         }
     }
 }

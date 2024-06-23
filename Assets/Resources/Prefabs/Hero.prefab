@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1123066700903815608
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1303395232608016963}
+  m_Layer: 0
+  m_Name: GroundDetectors
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1303395232608016963
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1123066700903815608}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 7320490408295231958}
+  - {fileID: 4571021712042601532}
+  - {fileID: 5461413418382087328}
+  - {fileID: 3723171857944687230}
+  m_Father: {fileID: 8732407168399754555}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1160198495814620361
 GameObject:
   m_ObjectHideFlags: 0
@@ -33,7 +68,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2827400576667277991}
-  - {fileID: 7320490408295231958}
+  - {fileID: 1303395232608016963}
   - {fileID: 3365296583595349506}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -78,7 +113,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 8367354692413607380}
   _animations: {fileID: 1252663175481745777}
-  _groundDetector: {fileID: 8013230868663546323}
+  _groundDetector: {fileID: 450348070346911158}
+  _leftWallDetector: {fileID: 9077884861773974362}
+  _rightWallDetector: {fileID: 9168275503207890412}
   _speed: 5
   _jumpHeight: 2.2
 --- !u!114 &1252663175481745777
@@ -103,7 +140,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7320490408295231958}
-  - component: {fileID: 8013230868663546323}
   - component: {fileID: 4392575485787758504}
   m_Layer: 11
   m_Name: GroundCollider
@@ -120,35 +156,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3539774804269955062}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 8732407168399754555}
+  m_Father: {fileID: 1303395232608016963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8013230868663546323
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3539774804269955062}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7092a35046b15034ea30d61c99fc9eda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _detector: {fileID: 4392575485787758504}
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 64
-  _boxCastYOffset: -0.4
-  _boxCastXOffset: 0
-  _boxCastWidth: 0.45
-  _boxCastHeight: 0.25
-  _gizmosColorNotGrounded: {r: 1, g: 0, b: 0, a: 1}
-  _gizmosColorGrounded: {r: 0, g: 1, b: 0, a: 1}
 --- !u!61 &4392575485787758504
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -377,3 +391,165 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.45, y: 0.9}
   m_EdgeRadius: 0
+--- !u!1 &6081828785708797046
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3723171857944687230}
+  - component: {fileID: 9077884861773974362}
+  m_Layer: 0
+  m_Name: LeftWallDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3723171857944687230
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6081828785708797046}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1303395232608016963}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9077884861773974362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6081828785708797046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7092a35046b15034ea30d61c99fc9eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detector: {fileID: 4392575485787758504}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _boxCastYOffset: 0
+  _boxCastXOffset: -0.25
+  _boxCastWidth: 0.2
+  _boxCastHeight: 0.2
+  _gizmosColorNotGrounded: {r: 1, g: 0, b: 0, a: 1}
+  _gizmosColorGrounded: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &7874166402010175542
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4571021712042601532}
+  - component: {fileID: 450348070346911158}
+  m_Layer: 0
+  m_Name: GroundDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4571021712042601532
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874166402010175542}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1303395232608016963}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &450348070346911158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7874166402010175542}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7092a35046b15034ea30d61c99fc9eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detector: {fileID: 4392575485787758504}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _boxCastYOffset: -0.4
+  _boxCastXOffset: 0
+  _boxCastWidth: 0.45
+  _boxCastHeight: 0.25
+  _gizmosColorNotGrounded: {r: 1, g: 0, b: 0, a: 1}
+  _gizmosColorGrounded: {r: 0, g: 1, b: 0, a: 1}
+--- !u!1 &8758957575017413825
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5461413418382087328}
+  - component: {fileID: 9168275503207890412}
+  m_Layer: 0
+  m_Name: RightWallDetector
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5461413418382087328
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8758957575017413825}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1303395232608016963}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9168275503207890412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8758957575017413825}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7092a35046b15034ea30d61c99fc9eda, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _detector: {fileID: 4392575485787758504}
+  _groundMask:
+    serializedVersion: 2
+    m_Bits: 64
+  _boxCastYOffset: 0
+  _boxCastXOffset: 0.25
+  _boxCastWidth: 0.2
+  _boxCastHeight: 0.2
+  _gizmosColorNotGrounded: {r: 1, g: 0, b: 0, a: 1}
+  _gizmosColorGrounded: {r: 0, g: 1, b: 0, a: 1}
