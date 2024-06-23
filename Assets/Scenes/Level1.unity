@@ -6658,6 +6658,7 @@ GameObject:
   m_Component:
   - component: {fileID: 795266925}
   - component: {fileID: 795266926}
+  - component: {fileID: 795266927}
   m_Layer: 7
   m_Name: Hitbox
   m_TagString: Untagged
@@ -6725,6 +6726,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.49704456, y: 0.3720786}
   m_EdgeRadius: 0
+--- !u!114 &795266927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795266924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cdd41d9695b076c408f09ca3e028702b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &834971444
 GameObject:
   m_ObjectHideFlags: 0
@@ -6959,6 +6972,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1038952002}
+  - component: {fileID: 1038952003}
   m_Layer: 0
   m_Name: Slime
   m_TagString: Untagged
@@ -6983,6 +6997,19 @@ Transform:
   - {fileID: 795266925}
   m_Father: {fileID: 2095025254}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1038952003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1038952001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c00c9e1539382c4ba97155d197ff775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _hurtboxDetector: {fileID: 795266927}
 --- !u!1 &1207612857
 GameObject:
   m_ObjectHideFlags: 0
