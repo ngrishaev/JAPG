@@ -95,17 +95,5 @@ namespace Game.Hero
 
             return new HeroStateMachine(groundedState, transitions);
         }
-
-        public void Hide()
-        {
-            Debug.Log("Hero was hidden!");
-            gameObject.SetActive(false);
-        }
-
-        public void Show()
-        {
-            gameObject.SetActive(true);
-            Debug.Log("Hero was shown!");
-        }
     }
 }

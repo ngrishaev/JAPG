@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -22,21 +23,41 @@ namespace Game.Room
 
         private void OnHeroEntered(Hero.Hero hero)
         {
-            StartCoroutine(MoveCameraToRoomRoutine());
+            FreezeWorld();
+            StartCoroutine(MoveCameraToRoomRoutine(onFinish: UnfreezeWorld));
         }
 
-        private IEnumerator MoveCameraToRoomRoutine()
+        private void UnfreezeWorld()
         {
+            Time.timeScale = 1f;
+        }
+
+        private void FreezeWorld()
+        {
+            Time.timeScale = 0f;
+        }
+
+        private IEnumerator MoveCameraToRoomRoutine(Action onFinish)
+        {
+            // TODO: replace with do tween
             var cameraPosition = _mainCamera.transform.position;
             
-            var targetPosition = new Vector3(_roomPosition.x, _roomPosition.y + 0.5f, cameraPosition.z);
+            var targetPosition = GetCameraPosition();
             var time = 0f;
             while (time < 1f)
             {
-                time += Time.deltaTime;
+                time += Time.unscaledDeltaTime;
                 _mainCamera.transform.position = Vector3.Lerp(cameraPosition, targetPosition, time);
                 yield return null;
             }
+
+            Debug.Log("On finish!");
+            onFinish();
+        }
+
+        private Vector2 GetCameraPosition()
+        {
+            return new Vector2(_roomPosition.x, _roomPosition.y + 0.5f);
         }
     }
 }
