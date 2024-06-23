@@ -85,8 +85,8 @@ namespace Game.Hero
             
             var transitions = new HashSet<Transition>()
             {
-                transitionToDash,
-                transitionToAirDash,
+                // transitionToDash,
+                // transitionToAirDash,
                 transitionToJump,
                 transitionToGrounded,
                 transitionToAirJump,
