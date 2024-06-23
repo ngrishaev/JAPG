@@ -66,18 +66,6 @@ namespace Infrastructure.States
         private void InitGameWorld()
         {
             var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
-            
-            InitRedDudes(hero);
-
-            Assert.IsNotNull(Camera.main, "Main camera is missing");
-            Camera.main.GetComponent<CameraFollower>().SetTarget(hero.transform);
-        }
-
-        private void InitRedDudes(GameObject hero)
-        {
-            var redDudes = Object.FindObjectsOfType<RedDude>();
-            foreach (var dude in redDudes) 
-                dude.Construct(hero);
         }
     }
 }
