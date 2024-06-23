@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Tools;
 using UnityEngine;
 
 namespace Game.Room
@@ -23,6 +24,9 @@ namespace Game.Room
 
         private void OnHeroEntered(Hero.Hero hero)
         {
+            if(GetCameraPosition().IsCloseEnough((Vector2)_mainCamera.transform.position))
+                return;
+            
             FreezeWorld();
             StartCoroutine(MoveCameraToRoomRoutine(onFinish: UnfreezeWorld));
         }
@@ -41,8 +45,8 @@ namespace Game.Room
         {
             // TODO: replace with do tween
             var cameraPosition = _mainCamera.transform.position;
-            
-            var targetPosition = GetCameraPosition();
+
+            var targetPosition = GetCameraPosition().WithZ(cameraPosition.z);
             var time = 0f;
             while (time < 1f)
             {
@@ -51,7 +55,6 @@ namespace Game.Room
                 yield return null;
             }
 
-            Debug.Log("On finish!");
             onFinish();
         }
 

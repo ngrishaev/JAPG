@@ -13,18 +13,8 @@ namespace Game.Room
             var hero = other.GetComponentInParent<Hero.Hero>();
             if (!hero)
                 return;
-
-            Debug.Log("COLLIDER: Hero entered room");
+            
             OnHeroEntered?.Invoke(hero);
-        }
-
-        private void OnTriggerExit2D(Collider2D other)
-        {
-            var hero = other.GetComponentInParent<Hero.Hero>();
-            if (!hero)
-                return;
-
-            Debug.Log("COLLIDER: Hero exited room");
         }
     }
 }
