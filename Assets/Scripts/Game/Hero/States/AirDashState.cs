@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Game.Hero.States
 {
+    // TODO - this is basically dash state copypast, need to refactor
     public class AirDashState : IHeroState
     {
         private readonly Rigidbody2D _playerBody;
