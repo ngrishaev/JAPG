@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tools.Enums;
+using UnityEngine;
 
 namespace Game.Hero
 {
@@ -10,19 +11,26 @@ namespace Game.Hero
         [SerializeField] private float _shootCooldown;
         
         private float _currentCooldown;
-        
-        public void TryShoot()
-        {
-            var bullet = Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity);
-            var bulletSpeedWithDirection = transform.lossyScale.x > 0 ? _bulletSpeed : -_bulletSpeed;
-            bullet.GetComponent<Rigidbody2D>().velocity = new Vector2(bulletSpeedWithDirection, 0);
-            _currentCooldown = _shootCooldown;
-        }
-        
+
         private void Update()
         {
             if (_currentCooldown > 0)
                 _currentCooldown -= Time.deltaTime;
         }
+
+        public void TryShoot()
+        {
+            if(_currentCooldown > 0)
+                return;
+            
+            _currentCooldown = _shootCooldown;
+            
+            var bullet = Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity);
+            bullet.Construct(GetDirection(), _bulletSpeed);
+            
+        }
+
+        private Direction GetDirection() => 
+            transform.lossyScale.x > 0 ? Direction.Right : Direction.Left;
     }
 }
