@@ -19,9 +19,10 @@ namespace Game.Hero
         [SerializeField] private GroundDetector _groundDetector = null!;
         [SerializeField] private GroundDetector _leftWallDetector = null!;
         [SerializeField] private GroundDetector _rightWallDetector = null!;
+        [SerializeField] private HeroShooter _shooter = null!;
         [SerializeField] private float _speed;
         [SerializeField] private float _jumpHeight;
-
+        
         private IInput _input = null!;
         private HeroStateMachine _stateMachine = null!;
         private HeroData _heroData = null!;
@@ -38,6 +39,8 @@ namespace Game.Hero
         {
             _stateMachine.Update(Time.deltaTime);
             _heroData.DashData.UpdateCooldown(Time.deltaTime);
+            if(_input.ShootPressedDown)
+                _shooter.TryShoot();
         }
 
         public void WriteProgress(PlayerProgress progress) => 

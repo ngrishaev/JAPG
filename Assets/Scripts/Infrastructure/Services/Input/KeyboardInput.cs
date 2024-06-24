@@ -8,5 +8,7 @@ namespace Infrastructure.Services.Input
         public bool JumpPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.Space);
         public bool JumpPressed => UnityEngine.Input.GetKey(KeyCode.Space);
         public bool DashPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftShift);
+        public bool ShootPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftControl) ||
+                                        UnityEngine.Input.GetKeyDown(KeyCode.RightControl);
     }
 }

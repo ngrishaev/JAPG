@@ -6,5 +6,6 @@
         bool JumpPressedDown { get; }
         bool JumpPressed { get; }
         bool DashPressedDown { get; }
+        bool ShootPressedDown { get; }
     }
 }
