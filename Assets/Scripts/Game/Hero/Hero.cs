@@ -91,8 +91,6 @@ namespace Game.Hero
                 .ToState(new FallingState(heroMover, _animations, _rigidbody));
             
             var transitionToClimb = TransitionBuilder.CreateTransition()
-                .FromState<JumpState>(requestingClimb)
-                .FromState<AirJumpState>(requestingClimb)
                 .FromState<FallingState>(requestingClimb)
                 .ToState(new WallClimbingState(_rigidbody));
             
