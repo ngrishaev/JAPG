@@ -1,4 +1,5 @@
 using Game.Shared.HorizontalMover;
+using Tools;
 using Tools.Enums;
 using UnityEngine;
 
@@ -20,7 +21,9 @@ namespace Game.Enemy
 
         private void OnMoveDirectionChanged(Direction direction)
         {
-            transform.localScale = direction == Direction.Right ? Vector3.one : new Vector3(-1, 1, 1);
+            transform.localScale = direction == Direction.Right 
+                ? transform.localScale.WithX(1) 
+                : transform.localScale.WithX(-1);
         }
 
         private void OnHeroHit(Hero.Hero hero)

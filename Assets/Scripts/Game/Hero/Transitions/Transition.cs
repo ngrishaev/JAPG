@@ -14,7 +14,7 @@ namespace Game.Hero.Transitions
     public class Transition : ITransition
     {
         private readonly HashSet<Type> _prohibitedStates = new();
-        private readonly Dictionary<Type, Func<bool>> _allowedStates = new();
+        private readonly Dictionary<Type, Func<bool>> _specifiedStates = new();
         private Func<bool>? _unknownStateTransitionCondition;
         public IHeroState ToState { get; private set; } = null!;
         
@@ -27,10 +27,8 @@ namespace Game.Hero.Transitions
             if (_prohibitedStates.Contains(stateType))
                 return false;
 
-            if (_allowedStates.TryGetValue(stateType, out var condition))
-            {
+            if (_specifiedStates.TryGetValue(stateType, out var condition))
                 return condition();
-            }
 
             return _unknownStateTransitionCondition?.Invoke() ?? false;
         }
@@ -52,7 +50,7 @@ namespace Game.Hero.Transitions
 
         public void SetOriginState<TState>(Func<bool> withCondition) where TState : IHeroState
         {
-            _allowedStates[typeof(TState)] = withCondition;
+            _specifiedStates[typeof(TState)] = withCondition;
         }
 
         public void AllowTransitionFromUnknownState(Func<bool> withCondition)

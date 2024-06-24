@@ -68,13 +68,6 @@ namespace Game.Hero
             var heroMover = new HeroMover(_input, _rigidbody, _speed);
             var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
             
-            // var transitionToDash = new Transition(
-            //     () => _input.DashPressedDown && _groundDetector.GroundedDetected && !_heroData.DashData.IsDashing && _heroData.DashData.IsCooldownReady(),
-            //     new DashState(_rigidbody, _heroData.DashData));
-            // var transitionToAirDash = new Transition(
-            //     () => _input.DashPressedDown && !_groundDetector.GroundedDetected && _heroData.DashData is { HaveAirDash: true, IsDashing: false }  && _heroData.DashData.IsCooldownReady(),
-            //     new AirDashState(_rigidbody, _heroData.DashData));
-            
             var transitionToJump = TransitionBuilder.CreateTransition()
                 .FromState<GroundedState>(withCondition: () => _input.JumpPressedDown)
                 .ToState(new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight));
@@ -83,28 +76,28 @@ namespace Game.Hero
                 .FromState<FallingState>(withCondition: () => _groundDetector.GroundedDetected)
                 .ToState(groundedState);
 
+            Func<bool> requestingAirJump = () => _input.JumpPressedDown && _heroData.JumpData.HaveAirJump;
             var transitionToAirJump = TransitionBuilder.CreateTransition()
-                .FromState<FallingState>(withCondition: () => _input.JumpPressedDown && _heroData.JumpData.HaveAirJump)
+                .FromState<FallingState>(withCondition: requestingAirJump)
+                .FromState<JumpState>(withCondition: requestingAirJump)
                 .ToState(new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight));
 
-            Func<bool> shouldClimb = () => _input.HorizontalMovement < 0 && _leftWallDetector.GroundedDetected ||
+            Func<bool> requestingClimb = () => _input.HorizontalMovement < 0 && _leftWallDetector.GroundedDetected ||
                                                _input.HorizontalMovement > 0 && _rightWallDetector.GroundedDetected;
             
             var transitionToFalling = TransitionBuilder.CreateTransition()
-                .FromState<WallClimbingState>(withCondition: () => !shouldClimb())
+                .FromState<WallClimbingState>(withCondition: () => !requestingClimb())
                 .FromAnyOtherState(withCondition: () => _rigidbody.velocity.y < 0 && !_groundDetector.GroundedDetected)
                 .ToState(new FallingState(heroMover, _animations, _rigidbody));
             
             var transitionToClimb = TransitionBuilder.CreateTransition()
-                .FromState<JumpState>(shouldClimb)
-                .FromState<AirJumpState>(shouldClimb)
-                .FromState<FallingState>(ClimbDebug)
+                .FromState<JumpState>(requestingClimb)
+                .FromState<AirJumpState>(requestingClimb)
+                .FromState<FallingState>(requestingClimb)
                 .ToState(new WallClimbingState(_rigidbody));
             
             var transitions = new HashSet<ITransition>()
             {
-                // transitionToDash,
-                // transitionToAirDash,
                 transitionToJump,
                 transitionToGrounded,
                 transitionToAirJump,
@@ -113,16 +106,6 @@ namespace Game.Hero
             };
 
             return new HeroStateMachine(groundedState, transitions);
-        }
-
-        private bool ClimbDebug()
-        {
-            Debug.Log($"ClimbDebug Left: {_leftWallDetector.GroundedDetected} {_input.HorizontalMovement < 0}");
-            Debug.Log($"ClimbDebug Right: {_rightWallDetector.GroundedDetected} {_input.HorizontalMovement > 0}");
-            
-            return _input.HorizontalMovement < 0 && _leftWallDetector.GroundedDetected ||
-                _input.HorizontalMovement > 0 && _rightWallDetector.GroundedDetected;
-            
         }
     }
 }
