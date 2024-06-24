@@ -6,7 +6,7 @@ namespace Game.Shared.HorizontalMover
     [RequireComponent(typeof(Collider2D))]
     public class HorizontalMoverEdge : MonoBehaviour
     {
-        public event Action OnEdgeReached = null!;
+        public event Action? OnEdgeReached;
         
         private void OnTriggerEnter2D(Collider2D other)
         {

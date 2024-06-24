@@ -10,7 +10,7 @@ namespace Game.Shared.HorizontalMover
         [SerializeField] private HorizontalMoverEdge _leftEdge = null!;
         [SerializeField] private HorizontalMoverEdge _rightEdge = null!;
         
-        public event Action<Direction> OnDirectionChanged = null!;
+        public event Action<Direction>? OnDirectionChanged;
         private float _speed;
 
         public void Construct(float speed)

@@ -1,18 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Game.Hero.States;
+using Game.Hero.Transitions;
 using UnityEngine;
 
 namespace Game.Hero
 {
     public class HeroStateMachine
     {
-        private readonly HashSet<Transition> _transitions;
+        private readonly HashSet<ITransition> _transitions;
         
         private IHeroState _currentState;
 
-        public HeroStateMachine(IHeroState initialState, HashSet<Transition> transitions)
+        public HeroStateMachine(IHeroState initialState, HashSet<ITransition> transitions)
         {
             _currentState = initialState;
             _transitions = transitions;
@@ -25,40 +25,22 @@ namespace Game.Hero
             if (nextState == null)
                 return;
             
-            if (nextState == _currentState)
-                return;
-            
             ChangeState(nextState);
         }
 
         private void ChangeState(IHeroState nextState)
         {
-            _currentState.Exit();
             Debug.Log($"Changing state from {_currentState.Name} to {nextState.Name}");
+            _currentState.Exit();
             _currentState = nextState;
             _currentState.Enter();
         }
 
-        private IHeroState? GetNextState() =>
-            _transitions
-                .FirstOrDefault(transition => transition.IsTriggering())?
+        private IHeroState? GetNextState()
+        {
+            return _transitions
+                .FirstOrDefault(transition => transition.IsTriggering(_currentState))?
                 .ToState ?? null;
-    }
-
-    public class Transition
-    {
-        public readonly IHeroState ToState;
-        private readonly Func<bool> _predicate;
-
-        public Transition(Func<bool> predicate, IHeroState toState)
-        {
-            _predicate = predicate;
-            ToState = toState;
-        }
-        
-        public bool IsTriggering()
-        {
-            return _predicate();
         }
     }
 }
