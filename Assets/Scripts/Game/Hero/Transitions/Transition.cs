@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using Game.Hero.States;
-using UnityEngine;
 
 namespace Game.Hero.Transitions
 {

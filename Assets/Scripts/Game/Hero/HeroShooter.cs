@@ -1,4 +1,5 @@
-﻿using Tools.Enums;
+﻿using Game.Common.Damage;
+using Tools.Enums;
 using UnityEngine;
 
 namespace Game.Hero
@@ -7,9 +8,10 @@ namespace Game.Hero
     {
         [SerializeField] private Transform _shootPoint = null!;
         [SerializeField] private HeroBullet _bulletPrefab = null!;
-        [SerializeField] private float _bulletSpeed;
         [SerializeField] private float _shootCooldown;
-        
+        [SerializeField] private float _bulletSpeed;
+        [SerializeField, Min(1)] private int _bulletDamage;
+
         private float _currentCooldown;
 
         private void Update()
@@ -26,8 +28,7 @@ namespace Game.Hero
             _currentCooldown = _shootCooldown;
             
             var bullet = Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity);
-            bullet.Construct(GetDirection(), _bulletSpeed);
-            
+            bullet.Construct(GetDirection(), _bulletSpeed, new Damage(_bulletDamage));
         }
 
         private Direction GetDirection() => 

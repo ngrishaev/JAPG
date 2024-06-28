@@ -23,7 +23,6 @@ namespace Game.Hero.States
             _rigidbody.velocity = new Vector2(horizontalInput * _speed, _rigidbody.velocity.y);
             FacingDirection = GetDirection(horizontalInput, FacingDirection);
             FaceByDirection(FacingDirection);
-            
         }
 
         private Direction GetDirection(float horizontalInput, Direction current) =>

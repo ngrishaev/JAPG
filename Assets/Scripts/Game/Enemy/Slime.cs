@@ -1,3 +1,6 @@
+using Game.Common;
+using Game.Common.Damage;
+using Game.Common.Health;
 using Game.Shared.HorizontalMover;
 using Tools;
 using Tools.Enums;
@@ -5,14 +8,19 @@ using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class Slime : MonoBehaviour
+    public class Slime : MonoBehaviour, IDamageable
     {
         [SerializeField] private HeroHurtboxDetector _hurtboxDetector = null!;
         [SerializeField] private HorizontalPeriodicMover _mover = null!;
         [SerializeField] private float _speed;
+        [SerializeField] private int _healthStartValue;
         
+        private Health _health = null!;
+
         private void Awake()
         {
+            _health = new Health(_healthStartValue);
+            
             _hurtboxDetector.OnHeroTriggered += OnHeroHit;
             _mover.OnDirectionChanged += OnMoveDirectionChanged;
             
@@ -29,6 +37,15 @@ namespace Game.Enemy
         private void OnHeroHit(Hero.Hero hero)
         {
             hero.Damage();
+        }
+
+        public void ReceiveDamage(Damage damage)
+        {
+            _health.ReceiveDamage(damage);
+            if (_health.IsDead())
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }

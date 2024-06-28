@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8572679986106282525}
   - component: {fileID: 2909783987554473868}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3766491868900367038}
   - component: {fileID: -2765633037038419317}
   - component: {fileID: 1417056030548503127}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: HeroBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
