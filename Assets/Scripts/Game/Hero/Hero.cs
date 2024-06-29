@@ -97,13 +97,18 @@ namespace Game.Hero
                 .FromState<FallingState>(requestingClimb)
                 .ToState(new WallClimbingState(_rigidbody));
             
+            var transitionToWallJump = TransitionBuilder.CreateTransition()
+                .FromState<WallClimbingState>(() => _input.JumpPressedDown)
+                .ToState(new WallJumpState(_rigidbody));
+            
             var transitions = new HashSet<ITransition>()
             {
                 transitionToJump,
                 transitionToGrounded,
                 transitionToAirJump,
                 transitionToFalling,
-                transitionToClimb
+                transitionToClimb,
+                transitionToWallJump
             };
 
             return new HeroStateMachine(groundedState, transitions);
