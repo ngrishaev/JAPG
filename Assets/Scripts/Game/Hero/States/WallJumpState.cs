@@ -14,10 +14,11 @@ namespace Game.Hero.States
         
         public void Enter()
         {
+            var jumpDirection = _rigidbody.transform.localScale.x > 0 ? -1 : 1;
             _rigidbody.gravityScale = 3f;
             var jumpHeight = 3f;
             var yVelocity = Mathf.Sqrt(2 * jumpHeight * Mathf.Abs(Physics2D.gravity.y * _rigidbody.gravityScale));
-            _rigidbody.velocity = new Vector2(4, yVelocity);
+            _rigidbody.velocity = new Vector2(4 * jumpDirection, yVelocity);
         }
 
         public void Exit()
