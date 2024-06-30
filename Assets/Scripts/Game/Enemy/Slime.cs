@@ -57,9 +57,9 @@ namespace Game.Enemy
 
         private IEnumerator StunRoutine(float duration)
         {
-            _mover.Stop();
+            _mover.StopMoving();
             yield return new WaitForSeconds(duration);
-            _mover.Start();
+            _mover.StartMoving();
         }
     }
 }
