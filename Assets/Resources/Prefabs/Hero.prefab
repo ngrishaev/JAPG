@@ -151,6 +151,10 @@ MonoBehaviour:
   _shootCooldown: 0.3
   _bulletSpeed: 10
   _bulletDamage: 1
+  _rocketPrefab: {fileID: 3611062223734147770, guid: 2064cb97cbb938b4ab2261c5152c2c19, type: 3}
+  _rocketShootCooldown: 1
+  _rocketSpeed: 5
+  _rocketDamage: 3
 --- !u!1 &2097440122592179896
 GameObject:
   m_ObjectHideFlags: 0

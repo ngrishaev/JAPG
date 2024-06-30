@@ -95,6 +95,7 @@ GameObject:
   - component: {fileID: 2099867558054077846}
   - component: {fileID: 3198780859478634100}
   - component: {fileID: 6287436348816354279}
+  - component: {fileID: 3611062223734147770}
   m_Layer: 10
   m_Name: HeroRocket
   m_TagString: Untagged
@@ -190,3 +191,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &3611062223734147770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4352223477523806286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddf5e6c333374fe08627fef721bfd2e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _body: {fileID: 6287436348816354279}

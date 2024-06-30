@@ -10,5 +10,7 @@ namespace Infrastructure.Services.Input
         public bool DashPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftShift);
         public bool ShootPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftControl) ||
                                         UnityEngine.Input.GetKeyDown(KeyCode.RightControl);
+        public bool RocketShootPressedDown => UnityEngine.Input.GetKeyDown(KeyCode.LeftAlt) ||
+                                              UnityEngine.Input.GetKeyDown(KeyCode.RightAlt);
     }
 }

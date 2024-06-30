@@ -40,7 +40,10 @@ namespace Game.Hero
             _stateMachine.Update(Time.deltaTime);
             _heroData.DashData.UpdateCooldown(Time.deltaTime);
             if(_input.ShootPressedDown)
-                _shooter.TryShoot();
+                _shooter.TryShootBullet();
+            
+            if(_input.RocketShootPressedDown)
+                _shooter.TryShootRocket();
         }
 
         public void WriteProgress(PlayerProgress progress) => 
