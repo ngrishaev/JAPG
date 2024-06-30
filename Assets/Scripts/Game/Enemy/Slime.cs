@@ -1,3 +1,5 @@
+using System;
+using System.Collections;
 using Game.Common;
 using Game.Common.Damage;
 using Game.Common.Health;
@@ -8,7 +10,7 @@ using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class Slime : MonoBehaviour, IDamageable
+    public class Slime : MonoBehaviour, IDamageable, IStunnable
     {
         [SerializeField] private HeroHurtboxDetector _hurtboxDetector = null!;
         [SerializeField] private HorizontalPeriodicMover _mover = null!;
@@ -46,6 +48,18 @@ namespace Game.Enemy
             {
                 Destroy(gameObject);
             }
+        }
+
+        public void Stun(float duration)
+        {
+            StartCoroutine(StunRoutine(duration));
+        }
+
+        private IEnumerator StunRoutine(float duration)
+        {
+            _mover.Stop();
+            yield return new WaitForSeconds(duration);
+            _mover.Start();
         }
     }
 }

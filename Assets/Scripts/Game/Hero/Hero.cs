@@ -39,11 +39,15 @@ namespace Game.Hero
         {
             _stateMachine.Update(Time.deltaTime);
             _heroData.DashData.UpdateCooldown(Time.deltaTime);
-            if(_input.ShootPressedDown)
+            
+            if(_input.Shoot())
                 _shooter.TryShootBullet();
             
-            if(_input.RocketShootPressedDown)
+            if(_input.RocketShoot())
                 _shooter.TryShootRocket();
+            
+            if(_input.PowerShoot())
+                _shooter.TryShootStun();
         }
 
         public void WriteProgress(PlayerProgress progress) => 
@@ -75,21 +79,21 @@ namespace Game.Hero
             var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
             
             var transitionToJump = TransitionBuilder.CreateTransition()
-                .FromState<GroundedState>(withCondition: () => _input.JumpPressedDown)
+                .FromState<GroundedState>(withCondition: () => _input.JumpPressedDown())
                 .ToState(new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight));
 
             var transitionToGrounded = TransitionBuilder.CreateTransition()
                 .FromState<FallingState>(withCondition: () => _groundDetector.GroundedDetected)
                 .ToState(groundedState);
 
-            Func<bool> requestingAirJump = () => _input.JumpPressedDown && _heroData.JumpData.HaveAirJump;
+            Func<bool> requestingAirJump = () => _input.JumpPressedDown() && _heroData.JumpData.HaveAirJump;
             var transitionToAirJump = TransitionBuilder.CreateTransition()
                 .FromState<FallingState>(withCondition: requestingAirJump)
                 .FromState<JumpState>(withCondition: requestingAirJump)
                 .ToState(new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight));
 
-            Func<bool> requestingClimb = () => _input.HorizontalMovement < 0 && _leftWallDetector.GroundedDetected ||
-                                               _input.HorizontalMovement > 0 && _rightWallDetector.GroundedDetected;
+            Func<bool> requestingClimb = () => _input.HorizontalMovement() < 0 && _leftWallDetector.GroundedDetected ||
+                                               _input.HorizontalMovement() > 0 && _rightWallDetector.GroundedDetected;
             
             var transitionToFalling = TransitionBuilder.CreateTransition()
                 .FromState<WallClimbingState>(withCondition: () => !requestingClimb())
@@ -101,7 +105,7 @@ namespace Game.Hero
                 .ToState(new WallClimbingState(_rigidbody));
             
             var transitionToWallJump = TransitionBuilder.CreateTransition()
-                .FromState<WallClimbingState>(() => _input.JumpPressedDown)
+                .FromState<WallClimbingState>(() => _input.JumpPressedDown())
                 .ToState(new WallJumpState(_rigidbody));
             
             var transitions = new HashSet<ITransition>()

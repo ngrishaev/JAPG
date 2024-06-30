@@ -11,25 +11,42 @@ namespace Game.Shared.HorizontalMover
         [SerializeField] private HorizontalMoverEdge _rightEdge = null!;
         
         public event Action<Direction>? OnDirectionChanged;
-        private float _speed;
+        private float _currentSpeed;
+        private float _moveSpeed;
 
         public void Construct(float speed)
         {
-            _speed = transform.localScale.x * speed;
+            _moveSpeed = speed;
+            Start(speed);
             
             _leftEdge.OnEdgeReached += OnEdgeReached;
             _rightEdge.OnEdgeReached += OnEdgeReached;
         }
 
+        private void Start(float speed)
+        {
+            _currentSpeed = transform.localScale.x * speed;
+        }
+
         private void FixedUpdate()
         {
-            _body.velocity = new Vector2(_speed, _body.velocity.y);
+            _body.velocity = new Vector2(_currentSpeed, _body.velocity.y);
         }
 
         private void OnEdgeReached()
         {
-            _speed *= -1;
-            OnDirectionChanged?.Invoke(_speed > 0 ? Direction.Right : Direction.Left);
+            _currentSpeed *= -1;
+            OnDirectionChanged?.Invoke(_currentSpeed > 0 ? Direction.Right : Direction.Left);
+        }
+        
+        public void Start()
+        {
+            Start(_moveSpeed);
+        }
+
+        public void Stop()
+        {
+            _currentSpeed = 0;
         }
     }
 }

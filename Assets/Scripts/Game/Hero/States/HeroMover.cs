@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Input;
+using Tools.Enums;
 using UnityEngine;
 
 namespace Game.Hero.States
@@ -19,7 +20,7 @@ namespace Game.Hero.States
 
         public void UpdateMovement()
         {
-            float horizontalInput = _input.HorizontalMovement;
+            float horizontalInput = _input.HorizontalMovement();
             _rigidbody.velocity = new Vector2(horizontalInput * _speed, _rigidbody.velocity.y);
             FacingDirection = GetDirection(horizontalInput, FacingDirection);
             FaceByDirection(FacingDirection);
@@ -40,11 +41,5 @@ namespace Game.Hero.States
                 Direction.Right => new Vector3(1, 1, 1),
                 _ => throw new System.ArgumentOutOfRangeException(nameof(direction), direction, "Unknown direction"),
             };
-
-        public enum Direction
-        {
-            Left,
-            Right,
-        }
     }
 }

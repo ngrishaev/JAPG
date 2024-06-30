@@ -2,11 +2,12 @@
 {
     public interface IInput : IService
     {
-        float HorizontalMovement { get; }
-        bool JumpPressedDown { get; }
-        bool JumpPressed { get; }
-        bool DashPressedDown { get; }
-        bool ShootPressedDown { get; }
-        bool RocketShootPressedDown { get; }
+        float HorizontalMovement ();
+        bool JumpPressedDown ();
+        bool JumpPressed ();
+        bool Shoot ();
+        bool RocketShoot ();
+        bool PowerShoot ();
+        
     }
 }

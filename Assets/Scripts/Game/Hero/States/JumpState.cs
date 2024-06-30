@@ -41,7 +41,7 @@ namespace Game.Hero.States
 
         public void Update(float deltaTime)
         {
-            if(!_input.JumpPressed)
+            if(!_input.JumpPressed())
                 _rigidbody.gravityScale = 5f;
             _heroMover.UpdateMovement();
         }

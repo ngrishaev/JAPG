@@ -18,9 +18,15 @@ namespace Game.Hero
         [SerializeField] private float _rocketShootCooldown;
         [SerializeField] private float _rocketSpeed;
         [SerializeField, Min(1)] private int _rocketDamage;
+        [Header("Stun")]
+        [SerializeField] private HeroStun _stunPrefab = null!;
+        [SerializeField] private float _stunShootCooldown;
+        [SerializeField] private float _stunSpeed;
+        [SerializeField] private float _stunDuration;
 
         private float _buleltCooldown;
         private float _rocketCooldown;
+        private float _stunCooldown;
 
         private void Update()
         {
@@ -29,6 +35,9 @@ namespace Game.Hero
             
             if (_rocketCooldown > 0)
                 _rocketCooldown -= Time.deltaTime;
+            
+            if (_stunCooldown > 0)
+                _stunCooldown -= Time.deltaTime;
         }
 
         public void TryShootBullet()
@@ -40,6 +49,17 @@ namespace Game.Hero
             
             var bullet = Instantiate(_bulletPrefab, _shootPoint.position, Quaternion.identity);
             bullet.Construct(GetDirection(), _bulletSpeed, new Damage(_bulletDamage));
+        }
+        
+        public void TryShootStun()
+        {
+            if(_stunCooldown > 0)
+                return;
+            
+            _stunCooldown = _stunShootCooldown;
+            
+            var stun = Instantiate(_stunPrefab, _shootPoint.position, Quaternion.identity);
+            stun.Construct(GetDirection(), _stunDuration, _stunSpeed);
         }
         
         public void TryShootRocket()

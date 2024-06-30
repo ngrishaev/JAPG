@@ -155,6 +155,10 @@ MonoBehaviour:
   _rocketShootCooldown: 1
   _rocketSpeed: 5
   _rocketDamage: 3
+  _stunPrefab: {fileID: 3437527428116746845, guid: 30640f71bed247d4ba5e182d1746f583, type: 3}
+  _stunShootCooldown: 1
+  _stunSpeed: 10
+  _stunDuration: 1
 --- !u!1 &2097440122592179896
 GameObject:
   m_ObjectHideFlags: 0
