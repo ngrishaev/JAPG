@@ -4,7 +4,7 @@ using Infrastructure.Services;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
-using UnityEngine;
+using Infrastructure.Services.StaticData;
 
 namespace Infrastructure.States
 {
@@ -17,7 +17,6 @@ namespace Infrastructure.States
 
         public BootstrapState(GameStateMachine stateMachine, SceneLoader sceneLoader, AllServices services)
         {
-            Debug.Log("Creating bootstrap state");
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
             _services = services;
@@ -37,6 +36,7 @@ namespace Infrastructure.States
 
         private void RegisterServices()
         {
+            _services.RegisterSingle<IStaticDataService>(new StaticDataService());
             _services.RegisterSingle<IInput>(new KeyboardInput());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());

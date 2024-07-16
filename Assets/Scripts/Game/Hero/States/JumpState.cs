@@ -1,4 +1,5 @@
 ﻿using Infrastructure.Services.Input;
+using Infrastructure.Services.StaticData;
 using UnityEngine;
 
 namespace Game.Hero.States
@@ -9,7 +10,7 @@ namespace Game.Hero.States
         private readonly HeroMover _heroMover;
         private readonly Rigidbody2D _rigidbody;
         private readonly HeroAnimations _heroAnimations;
-        private float _jumpHeight;
+        private HeroStaticData _heroStaticData;
 
         public string Name => "JumpState";
 
@@ -18,19 +19,19 @@ namespace Game.Hero.States
             HeroMover heroMover,
             Rigidbody2D rigidbody,
             HeroAnimations heroAnimations,
-            float jumpHeight)
+            HeroStaticData heroStaticData)
         {
             _input = input;
             _heroMover = heroMover;
             _rigidbody = rigidbody;
             _heroAnimations = heroAnimations;
-            _jumpHeight = jumpHeight;
+            _heroStaticData = heroStaticData;
         }
 
         public void Enter()
         {
-            _rigidbody.gravityScale = 3f;
-            var jumpSpeed = Mathf.Sqrt(2 * _jumpHeight * Mathf.Abs(Physics2D.gravity.y * _rigidbody.gravityScale));
+            _rigidbody.gravityScale = _heroStaticData.JumpGravity;
+            var jumpSpeed = Mathf.Sqrt(2 * _heroStaticData.JumpHeight * Mathf.Abs(Physics2D.gravity.y * _rigidbody.gravityScale));
             _rigidbody.velocity = new Vector2(_rigidbody.velocity.x, jumpSpeed);
             _heroAnimations.PlayJumpAnimation();
         }
@@ -42,7 +43,7 @@ namespace Game.Hero.States
         public void Update(float deltaTime)
         {
             if(!_input.JumpPressed())
-                _rigidbody.gravityScale = 5f;
+                _rigidbody.gravityScale = _heroStaticData.FallGravity;
             _heroMover.UpdateMovement();
         }
     }

@@ -7,6 +7,7 @@ using Game.Hero.Transitions;
 using Infrastructure.Services;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
+using Infrastructure.Services.StaticData;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -20,16 +21,17 @@ namespace Game.Hero
         [SerializeField] private GroundDetector _leftWallDetector = null!;
         [SerializeField] private GroundDetector _rightWallDetector = null!;
         [SerializeField] private HeroShooter _shooter = null!;
-        [SerializeField] private float _speed;
-        [SerializeField] private float _jumpHeight;
         
         private IInput _input = null!;
         private HeroStateMachine _stateMachine = null!;
         private HeroData _heroData = null!;
+        private HeroStaticData _heroStaticData = null!;
 
         private void Awake()
         {
             _input = AllServices.Container.Single<IInput>();
+            _heroStaticData = AllServices.Container.Single<IStaticDataService>().GetPlayerStaticData();
+            
             _heroData = new HeroData(); // TODO - load in load level state;
             
             _stateMachine = CreatePlayerStateMachine();
@@ -75,12 +77,12 @@ namespace Game.Hero
 
         private HeroStateMachine CreatePlayerStateMachine()
         {
-            var heroMover = new HeroMover(_input, _rigidbody, _speed);
+            var heroMover = new HeroMover(_input, _rigidbody, _heroStaticData.Speed);
             var groundedState = new GroundedState(heroMover, _animations, _heroData.JumpData, _heroData.DashData);
             
             var transitionToJump = TransitionBuilder.CreateTransition()
                 .FromState<GroundedState>(withCondition: () => _input.JumpPressedDown())
-                .ToState(new JumpState(_input, heroMover, _rigidbody, _animations, _jumpHeight));
+                .ToState(new JumpState(_input, heroMover, _rigidbody, _animations, _heroStaticData));
 
             var transitionToGrounded = TransitionBuilder.CreateTransition()
                 .FromState<FallingState>(withCondition: () => _groundDetector.GroundedDetected)
@@ -90,23 +92,23 @@ namespace Game.Hero
             var transitionToAirJump = TransitionBuilder.CreateTransition()
                 .FromState<FallingState>(withCondition: requestingAirJump)
                 .FromState<JumpState>(withCondition: requestingAirJump)
-                .ToState(new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _jumpHeight));
+                .ToState(new AirJumpState(_input, heroMover, _rigidbody, _animations, _heroData.JumpData, _heroStaticData));
 
-            Func<bool> requestingClimb = () => _input.HorizontalMovement() < 0 && _leftWallDetector.GroundedDetected ||
+            Func<bool> isRequestingClimb = () => _input.HorizontalMovement() < 0 && _leftWallDetector.GroundedDetected ||
                                                _input.HorizontalMovement() > 0 && _rightWallDetector.GroundedDetected;
             
             var transitionToFalling = TransitionBuilder.CreateTransition()
-                .FromState<WallClimbingState>(withCondition: () => !requestingClimb())
+                .FromState<WallClimbingState>(withCondition: () => !isRequestingClimb())
                 .FromAnyOtherState(withCondition: () => _rigidbody.velocity.y < 0 && !_groundDetector.GroundedDetected)
-                .ToState(new FallingState(heroMover, _animations, _rigidbody));
+                .ToState(new FallingState(heroMover, _animations, _rigidbody, _heroStaticData));
             
             var transitionToClimb = TransitionBuilder.CreateTransition()
-                .FromState<FallingState>(requestingClimb)
+                .FromState<FallingState>(isRequestingClimb)
                 .ToState(new WallClimbingState(_rigidbody));
             
             var transitionToWallJump = TransitionBuilder.CreateTransition()
                 .FromState<WallClimbingState>(() => _input.JumpPressedDown())
-                .ToState(new WallJumpState(_rigidbody));
+                .ToState(new WallJumpState(_rigidbody, _heroStaticData));
             
             var transitions = new HashSet<ITransition>()
             {
