@@ -1,11 +1,9 @@
-using System;
 using Game.Common.Damage;
-using Game.Enemy;
 using Tools;
 using Tools.Enums;
 using UnityEngine;
 
-namespace Game.Hero
+namespace Game.Hero.Attack
 {
     [RequireComponent(typeof(Collider2D))]
     public class HeroBullet : MonoBehaviour

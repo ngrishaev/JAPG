@@ -3,15 +3,14 @@ using Tools;
 using Tools.Enums;
 using UnityEngine;
 
-namespace Game.Hero
+namespace Game.Hero.Attack
 {
     [RequireComponent(typeof(Collider2D))]
     public class HeroRocket : MonoBehaviour
     {
         [SerializeField] private Rigidbody2D _body = null!;
         private Damage _explosionDamage = null!;
-
-        // TODO: extract projectile class?
+        
         public void Construct(Direction direction, float speed, Damage damage)
         {
             _explosionDamage = damage;

@@ -7,7 +7,6 @@ namespace Game.Hero.States
 {
     public class AirJumpState : IHeroState
     {
-        // TODO - this is basically jump state copypast, need to refactor
         private readonly IInput _input;
         private readonly HeroMover _heroMover;
         private readonly Rigidbody2D _rigidbody;
