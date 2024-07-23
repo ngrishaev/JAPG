@@ -1,7 +1,9 @@
 ﻿using System;
+using Game.Hero;
 using Game.Room;
 using Infrastructure.Factory;
 using Infrastructure.Services.PersistentProgress;
+using Infrastructure.Services.PersistentProgress.SaveLoad;
 using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -17,13 +19,16 @@ namespace Infrastructure.States
         private readonly LoadingCurtain _curtain;
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
+        private readonly ISaveLoadService _saveLoadService;
 
         public LoadLevelState(
             GameStateMachine gameStateMachine,
             SceneLoader sceneLoader,
             LoadingCurtain curtain,
             IGameFactory gameFactory,
-            IPersistentProgressService progressService)
+            IPersistentProgressService progressService,
+            ISaveLoadService saveLoadService
+            )
         
         {
             _gameStateMachine = gameStateMachine;
@@ -31,12 +36,13 @@ namespace Infrastructure.States
             _curtain = curtain;
             _gameFactory = gameFactory;
             _progressService = progressService;
+            _saveLoadService = saveLoadService;
         }
 
         public void Enter(string sceneName)
         {
             _curtain.Show();
-            _gameFactory.CleanUp();
+            _saveLoadService.CleanUp();
             _sceneLoader.Load(sceneName, OnSceneLoaded);
         }
 
@@ -55,11 +61,11 @@ namespace Infrastructure.States
 
         private void InformProgressReaders()
         {
-            if(_progressService.Progress == null)
+            if(_progressService.ProgressData == null)
                 throw new Exception("Progress is not initialized"); // TODO: Create custom exception so it's ensure that argument is not null
             
-            foreach (var reader in _gameFactory.ProgressReaders) 
-                reader.LoadProgress(_progressService.Progress);
+            foreach (var reader in _saveLoadService.ProgressReaders) 
+                reader.LoadProgress(_progressService.ProgressData);
         }
 
         private void InitGameWorld()
@@ -82,7 +88,9 @@ namespace Infrastructure.States
 
         private void InitHero()
         {
-            var hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
+            Hero hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
+            _saveLoadService.RegisterReader(hero);
+            _saveLoadService.RegisterWriter(hero);
         }
     }
 }

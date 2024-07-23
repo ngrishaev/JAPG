@@ -24,7 +24,7 @@ namespace Game.Room
 
         private void OnHeroEntered(Hero.Hero hero)
         {
-            if(GetCameraPosition().IsCloseEnough((Vector2)_mainCamera.transform.position))
+            if(GetCameraPosition().IsCloseEnough(_mainCamera.transform.position))
                 return;
             
             FreezeWorld();

@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using System.Collections.Generic;
+using Data;
 
 namespace Infrastructure.Services.PersistentProgress.SaveLoad
 {
@@ -6,5 +7,10 @@ namespace Infrastructure.Services.PersistentProgress.SaveLoad
     {
         PlayerProgress? LoadProgress();
         void SaveProgress();
+        List<IProgressReader> ProgressReaders { get; }
+        List<IProgressWriter> ProgressWriters { get; }
+        void RegisterWriter(IProgressWriter reader);
+        void RegisterReader(IProgressReader reader);
+        void CleanUp();
     }
 }
