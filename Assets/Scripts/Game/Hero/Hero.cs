@@ -28,13 +28,13 @@ namespace Game.Hero
         private HeroData _heroData = null!;
         private HeroStaticData _heroStaticData = null!;
 
-        private void Awake()
+        public void Construct(IInput input, HeroStaticData staticData)
         {
-            _input = AllServices.Container.Single<IInput>();
-            _heroStaticData = AllServices.Container.Single<IStaticDataService>().GetPlayerStaticData();
-            
-            _heroData = new HeroData(); // TODO - load in load level state;
-            
+            _input = input;
+            _heroStaticData = staticData;
+                        
+            _heroData = new HeroData(); 
+                        
             _stateMachine = CreatePlayerStateMachine();
         }
 

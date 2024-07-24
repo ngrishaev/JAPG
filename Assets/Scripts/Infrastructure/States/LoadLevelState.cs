@@ -1,9 +1,13 @@
 ﻿using System;
+using Game.Enemy;
 using Game.Hero;
 using Game.Room;
 using Infrastructure.Factory;
+using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
+using Infrastructure.Services.Reset;
+using Infrastructure.Services.StaticData;
 using UI;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -20,6 +24,9 @@ namespace Infrastructure.States
         private readonly IGameFactory _gameFactory;
         private readonly IPersistentProgressService _progressService;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly IInput _inputService;
+        private readonly IStaticDataService _staticDataService;
+        private readonly IResetService _resetService;
 
         public LoadLevelState(
             GameStateMachine gameStateMachine,
@@ -27,7 +34,10 @@ namespace Infrastructure.States
             LoadingCurtain curtain,
             IGameFactory gameFactory,
             IPersistentProgressService progressService,
-            ISaveLoadService saveLoadService
+            ISaveLoadService saveLoadService,
+            IInput inputService,
+            IStaticDataService staticDataService,
+            IResetService resetService
             )
         
         {
@@ -37,6 +47,9 @@ namespace Infrastructure.States
             _gameFactory = gameFactory;
             _progressService = progressService;
             _saveLoadService = saveLoadService;
+            _inputService = inputService;
+            _staticDataService = staticDataService;
+            _resetService = resetService;
         }
 
         public void Enter(string sceneName)
@@ -72,6 +85,16 @@ namespace Infrastructure.States
         {
             InitHero();
             InitRooms();
+            InitSlimes();
+        }
+
+        private void InitSlimes()
+        {
+            var slimes = Object.FindObjectsByType<Slime>(FindObjectsSortMode.None);
+            foreach (var slime in slimes)
+            {
+                slime.Construct(speed: 3, health: 2); // TODO: replace with slime static data
+            }
         }
 
         private void InitRooms()
@@ -89,6 +112,8 @@ namespace Infrastructure.States
         private void InitHero()
         {
             Hero hero = _gameFactory.CreateHero(at: GameObject.FindGameObjectWithTag(InitialPoint));
+            hero.Construct(_inputService, _staticDataService.GetPlayerStaticData());
+            
             _saveLoadService.RegisterReader(hero);
             _saveLoadService.RegisterWriter(hero);
         }

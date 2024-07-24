@@ -4,6 +4,7 @@ using Infrastructure.Services;
 using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
+using Infrastructure.Services.Reset;
 using Infrastructure.Services.StaticData;
 
 namespace Infrastructure.States
@@ -42,6 +43,7 @@ namespace Infrastructure.States
             _services.RegisterSingle<IPersistentProgressService>(new PersistentProgressService());
             _services.RegisterSingle<IGameFactory>(new GameFactory(_services.Single<IAssetProvider>()));
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(_services.Single<IPersistentProgressService>(), _services.Single<IGameFactory>()));
+            _services.RegisterSingle<IResetService>(new ResetService());
         }
     }
 }

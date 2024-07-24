@@ -14,19 +14,17 @@ namespace Game.Enemy
     {
         [SerializeField] private HeroHurtboxDetector _hurtboxDetector = null!;
         [SerializeField] private HorizontalPeriodicMover _mover = null!;
-        [SerializeField] private float _speed;
-        [SerializeField] private int _healthStartValue;
         
         private Health _health = null!;
-
-        private void Awake()
+        
+        public void Construct(float speed, int health)
         {
-            _health = new Health(_healthStartValue);
+            _health = new Health(health); // 3
             
             _hurtboxDetector.OnHeroTriggered += OnHeroHit;
             _mover.OnDirectionChanged += OnMoveDirectionChanged;
-            
-            _mover.Construct(_speed);
+             
+            _mover.Construct(speed); // 2
         }
 
         private void OnMoveDirectionChanged(Direction direction)

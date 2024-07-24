@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using Infrastructure.Factory;
 using Infrastructure.Services;
+using Infrastructure.Services.Input;
 using Infrastructure.Services.PersistentProgress;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
+using Infrastructure.Services.Reset;
+using Infrastructure.Services.StaticData;
 using UI;
 
 namespace Infrastructure.States
@@ -19,7 +22,18 @@ namespace Infrastructure.States
             {
                 {typeof(BootstrapState), new BootstrapState(this, sceneLoader, services)},
                 {typeof(LoadProgressState), new LoadProgressState(this, services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>())},
-                {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, curtain, services.Single<IGameFactory>(), services.Single<IPersistentProgressService>(), services.Single<ISaveLoadService>())},
+                {
+                    typeof(LoadLevelState), new LoadLevelState(
+                        this,
+                        sceneLoader,
+                        curtain,
+                        services.Single<IGameFactory>(),
+                        services.Single<IPersistentProgressService>(),
+                        services.Single<ISaveLoadService>(),
+                        services.Single<IInput>(),
+                        services.Single<IStaticDataService>(),
+                        services.Single<IResetService>()
+                    ) },
                 {typeof(GameLoopState), new GameLoopState()},
             };
         }
