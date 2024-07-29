@@ -1,5 +1,6 @@
 ﻿using Infrastructure.Services;
 using Infrastructure.Services.PersistentProgress.SaveLoad;
+using Infrastructure.Services.Reset;
 using UnityEngine;
 
 namespace Game.Level
@@ -9,16 +10,18 @@ namespace Game.Level
         [SerializeField] private BoxCollider2D _collider = null!;
         
         private ISaveLoadService _saveLoadService = null!;
+        private IResetService _resetService = null!;
 
         private void Awake()
         {
             _saveLoadService = AllServices.Container.Single<ISaveLoadService>();
+            _resetService = AllServices.Container.Single<IResetService>();
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             _saveLoadService.SaveProgress();
-            Debug.Log("Progress saved");
+            _resetService.Reset();
         }
 
         private void OnDrawGizmos()
