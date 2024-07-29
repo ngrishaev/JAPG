@@ -1,29 +1,33 @@
-using System;
 using System.Collections;
-using Game.Common;
 using Game.Common.Damage;
 using Game.Common.Health;
 using Game.Shared.HorizontalMover;
+using Infrastructure.Services.Reset;
 using Tools;
 using Tools.Enums;
 using UnityEngine;
 
 namespace Game.Enemy
 {
-    public class Slime : MonoBehaviour, IDamageable, IStunnable
+    public class Slime : MonoBehaviour, IDamageable, IStunnable, IResetable
     {
         [SerializeField] private HeroHurtboxDetector _hurtboxDetector = null!;
         [SerializeField] private HorizontalPeriodicMover _mover = null!;
         
         private Health _health = null!;
-        
+        private ResetData _resetData = null!;
+
         public void Construct(float speed, int health)
         {
-            _health = new Health(health); // 3
-            
             _hurtboxDetector.OnHeroTriggered += OnHeroHit;
             _mover.OnDirectionChanged += OnMoveDirectionChanged;
-             
+            
+            _resetData = new ResetData(
+                transform.position,
+                transform.localScale.x > 0 ? Direction.Right : Direction.Left,
+                health);
+            
+            _health = new Health(health); // 3
             _mover.Construct(speed); // 2
         }
 
@@ -44,7 +48,7 @@ namespace Game.Enemy
             _health.ReceiveDamage(damage);
             if (_health.IsDead())
             {
-                Destroy(gameObject);
+                gameObject.SetActive(false);
             }
         }
 
@@ -58,6 +62,30 @@ namespace Game.Enemy
             _mover.StopMoving();
             yield return new WaitForSeconds(duration);
             _mover.StartMoving();
+        }
+
+        public void Reset()
+        {
+            transform.position = _resetData.Position;
+            transform.localScale = _resetData.Direction == Direction.Right 
+                ? transform.localScale.WithX(1) 
+                : transform.localScale.WithX(-1);
+            _health = new Health(_resetData.Health);
+            gameObject.SetActive(true);
+        }
+
+        private class ResetData
+        {
+            public Vector3 Position;
+            public Direction Direction;
+            public int Health;
+
+            public ResetData(Vector3 position, Direction direction, int health)
+            {
+                Position = position;
+                Direction = direction;
+                Health = health;
+            }
         }
     }
 }

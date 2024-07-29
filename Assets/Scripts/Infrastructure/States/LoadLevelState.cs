@@ -94,6 +94,7 @@ namespace Infrastructure.States
             foreach (var slime in slimes)
             {
                 slime.Construct(speed: 3, health: 2); // TODO: replace with slime static data
+                _resetService.Register(slime);
             }
         }
 
