@@ -100,7 +100,7 @@ namespace Game.Hero
             
             var transitionToFalling = TransitionBuilder.CreateTransition()
                 .FromState<WallClimbingState>(withCondition: () => !isRequestingClimb())
-                .FromAnyOtherState(withCondition: () => _rigidbody.velocity.y < 0 && !_groundDetector.GroundedDetected)
+                .FromAnyOtherState(withCondition: () => _rigidbody.velocity.y <= 0 && !_groundDetector.GroundedDetected)
                 .ToState(new FallingState(heroMover, _animations, _rigidbody, _heroStaticData));
             
             var transitionToClimb = TransitionBuilder.CreateTransition()
